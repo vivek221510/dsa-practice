@@ -1,8 +1,15 @@
+//QUESTION:
 // You are given a 2D binary array grid. Find a rectangle with horizontal and vertical sides with the smallest area, such that all the 1's in grid lie inside this rectangle.
 // Return the minimum possible area of the rectangle.
 // Example 1:
 // Input: grid = [[0,1,0],[1,0,1]]
 // Output: 6
+
+//------APPROACH-----
+//solved it on own by elminating the all zeros rows and columns at start and end. then, answer will be remaining no of rows * remaining no of columns main
+//**** Time Complexity(TC): O(n*m) *****
+//**** Space Complexity(SC): O(n+m) *****
+
 
 class Solution {
     public int minimumArea(int[][] grid) {
