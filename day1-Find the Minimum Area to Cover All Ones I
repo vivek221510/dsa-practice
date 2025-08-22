@@ -1,0 +1,69 @@
+// You are given a 2D binary array grid. Find a rectangle with horizontal and vertical sides with the smallest area, such that all the 1's in grid lie inside this rectangle.
+// Return the minimum possible area of the rectangle.
+// Example 1:
+// Input: grid = [[0,1,0],[1,0,1]]
+// Output: 6
+
+class Solution {
+    public int minimumArea(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        boolean row[] = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            boolean val = false;
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 1) {
+                    val = true;
+                    break;
+                }
+
+            }
+            if (val)
+                row[i] = true;
+        }
+        boolean col[] = new boolean[m];
+        for (int i = 0; i < m; i++) {
+            boolean val = false;
+            for (int j = 0; j < n; j++) {
+                if (grid[j][i] == 1) {
+                    val = true;
+                    break;
+                }
+
+            }
+            if (val)
+                col[i] = true;
+        }
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (row[i]) {
+                break;
+            }
+            cnt++;
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            if (row[i])
+                break;
+            cnt++;
+        }
+        int cnt1 = 0;
+        for (int i = 0; i < m; i++) {
+            if (col[i]) {
+                break;
+            }
+            cnt1++;
+        }
+        for (int i = m - 1; i >= 0; i--) {
+            if (col[i])
+                break;
+            cnt1++;
+        }
+        int a = n - cnt;
+        int b = m - cnt1;
+        if (a < 0)
+            a = 0;
+        if (b < 0)
+            b = 0;
+        return a * b;
+    }
+}
