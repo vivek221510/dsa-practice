@@ -30,7 +30,7 @@ Since this is a practice repo:
 
 ## 📬 Connect
 If you’re also practicing DSA, feel free to connect and share ideas:  
-- LinkedIn: 
+- LinkedIn: www.linkedin.com/in/vivek-kurapati-100a4430b
 
 ---
 
