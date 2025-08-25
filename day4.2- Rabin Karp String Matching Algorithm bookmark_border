@@ -1,0 +1,50 @@
+/*
+Qno: day4
+Problem: Rabin Karp String Matching Algorithm
+Source: SmartInterviews
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while(t-- > 0) {
+            String a = sc.next();
+            String b = sc.next();
+            int n = a.length();
+            int m = b.length();
+
+            long ha = 0; // Hash of pattern
+            long hb = 0; // Hash of current substring
+            long p1 = 31, p2 = 31, p = 31;
+            long mod = 1000000007;
+            int cnt = 0;
+
+            // Initial hash for pattern and first substring
+            for(int i = 0; i < n; i++) {
+                ha = ((ha + (a.charAt(i) * p1) % mod) % mod);
+                hb = ((hb + (b.charAt(i) * p1) % mod) % mod);
+                p1 = (p1 * p) % mod;
+            }
+
+            if(ha == hb) cnt++; // First substring match
+
+            // Rolling hash for remaining substrings
+            for(int i = n; i < m; i++) {
+                hb = (((hb - ((b.charAt(i - n) * p2) % mod) + mod) % mod) + ((b.charAt(i) * p1) % mod)) % mod; // update hash
+                ha = (ha * p) % mod; // update pattern hash
+                p1 = (p1 * p) % mod; 
+                p2 = (p2 * p) % mod;
+                
+                if(ha == hb) cnt++; // Match found
+            }
+
+            System.out.println(cnt);
+        }
+    }
+}
