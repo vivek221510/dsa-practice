@@ -1,0 +1,83 @@
+// QUESTION: leetcode:498 (Diagonal Traverse)
+// Given an m x n matrix mat, return an array of all the elements 
+// of the array in a diagonal order.
+//
+// Example 1:
+// Input: mat = [[1,2,3],[4,5,6],[7,8,9]]
+// Output: [1,2,4,7,5,3,6,8,9]
+//
+// Example 2:
+// Input: mat = [[1,2],[3,4]]
+// Output: [1,2,3,4]
+//
+// ------- APPROACH -------
+// 1. Traverse first n diagonals starting from row side.
+//    - If diagonal index is even → move upward (row--, col++).
+//    - If diagonal index is odd  → move downward (row++, col--).
+// 2. Then traverse remaining diagonals starting from last row & different columns.
+//    - Again alternate directions depending on parity of (row+col).
+// 3. Collect all values in answer array.
+//
+// **** TC: O(m*n) ****
+// **** SC: O(1) (output array not counted) ****
+
+class Solution {
+    public int[] findDiagonalOrder(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+        int ans[] = new int[n * m];
+        int ind = 0;
+
+        // traverse diagonals starting from row side
+        for (int i = 0; i < n; i++) {
+            if (i % 2 == 0) {
+                int i1 = i;
+                int j = 0;
+                while (i1 >= 0 && j < m) {
+                    ans[ind] = mat[i1][j];
+                    ind++;
+                    i1--;
+                    j++;
+                }
+            } else {
+                int j = 0;
+                int i1 = i;
+                while (j < m - 1 && i1 > 0) {
+                    i1--;
+                    j++;
+                }
+                while (j >= 0 && i1 < n) {
+                    ans[ind++] = mat[i1][j];
+                    i1++;
+                    j--;
+                }
+            }
+        }
+
+        // traverse diagonals starting from last row & columns
+        for (int j = 1; j < m; j++) {
+            if ((j + n) % 2 != 1) {
+                int j1 = j;
+                int i = n - 1;
+                while (j1 < m - 1 && i > 0) {
+                    i--;
+                    j1++;
+                }
+                while (j1 >= 0 && i < n) {
+                    ans[ind++] = mat[i][j1];
+                    i++;
+                    j1--;
+                }
+            } else {
+                int j1 = j;
+                int i = n - 1;
+                while (j1 < m && i >= 0) {
+                    ans[ind++] = mat[i][j1];
+                    i--;
+                    j1++;
+                }
+            }
+        }
+        return ans;
+    }
+}
