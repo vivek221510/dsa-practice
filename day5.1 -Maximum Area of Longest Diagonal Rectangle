@@ -1,0 +1,55 @@
+// DAY 6
+// QUESTION: leetcode:3000
+// You are given a 2D 0-indexed integer array dimensions.
+// For all indices i, dimensions[i][0] represents the length 
+// and dimensions[i][1] represents the width of rectangle i.
+// Return the area of the rectangle having the longest diagonal. 
+// If there are multiple rectangles with the longest diagonal, 
+// return the area of the rectangle having the maximum area.
+//
+// Example 1:
+// Input: dimensions = [[9,3],[8,6]]
+// Output: 48
+// Explanation: 
+// Diagonal of [9,3] = sqrt(9^2 + 3^2) = sqrt(90) ≈ 9.48
+// Diagonal of [8,6] = sqrt(8^2 + 6^2) = sqrt(100) = 10
+// => Rectangle [8,6] has longer diagonal, so area = 48
+//
+// Example 2:
+// Input: dimensions = [[3,4],[4,3]]
+// Output: 12
+// Explanation: 
+// Both diagonals = 5, so pick rectangle with max area = 12
+//
+// ------- APPROACH -------
+// - Use Pythagoras theorem to compute the square of the diagonal: 
+//   diagonal² = h² + w²
+// - Track the maximum diagonal found so far.
+// - If a new rectangle has a larger diagonal, update both diagonal and area.
+// - If the diagonal is equal, update the area only if it is larger.
+// - We avoid using sqrt since comparing squares is sufficient.
+//
+// **** Time Complexity(TC): O(n) *****
+// **** Space Complexity(SC): O(1) *****
+
+class Solution {
+    public int areaOfMaxDiagonal(int[][] dimensions) {
+        int maxDiagonal = 0;
+        int maxArea = 0;
+
+        for (int[] rect : dimensions) {
+            int h = rect[0];
+            int w = rect[1];
+            int diagonalSq = h * h + w * w;
+            int area = h * w;
+
+            if (diagonalSq > maxDiagonal) {
+                maxDiagonal = diagonalSq;
+                maxArea = area;
+            } else if (diagonalSq == maxDiagonal) {
+                maxArea = Math.max(maxArea, area);
+            }
+        }
+        return maxArea;
+    }
+}
