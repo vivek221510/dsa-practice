@@ -1,0 +1,108 @@
+// DAY 6
+// QUESTION: Smart Interviews Hive - Prime Love
+// Lisa and Joey love prime numbers that don't contain 0 and remain prime 
+// after removing digits from the beginning (all suffixes must be prime).
+// Given N, count how many such primes ≤ N.
+//
+// ------- Example -------
+// Input:
+// 3
+// 30
+// 100
+// 5
+//
+// Output:
+// 7
+// 15
+// 3
+//
+// Explanation:
+// Primes ≤ 30 = {2,3,5,7,11,13,17,19,23,29}
+// Valid ones = {2,3,5,7,11,13,17} → 7 primes
+//
+// ------- APPROACH -------
+// 1. Precompute all primes up to 10^6 using Sieve of Eratosthenes.
+// 2. Build a dp[] array where dp[i] = number of "Lisa & Joey primes" ≤ i.
+// 3. For each prime number:
+//    - Ensure it does not contain digit '0'.
+//    - Ensure all suffixes are prime (check with i % 10, i % 100, ...).
+//    - If valid, increase dp[i] by 1.
+// 4. Answer queries in O(1) using dp[n].
+//
+// **** Time Complexity(TC): O(n log log n + n log n) for preprocessing *****
+// **** Space Complexity(SC): O(n) *****
+// (n = 10^6 maximum)
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        // Step 1: Sieve of Eratosthenes up to 10^6
+        boolean[] prime = new boolean[1000001];
+        Arrays.fill(prime, true);
+        prime[0] = false;
+        prime[1] = false;
+
+        for (int i = 2; i * i <= 1000000; i++) {
+            if (prime[i]) {
+                for (int j = i * i; j <= 1000000; j = j + i) {
+                    prime[j] = false;
+                }
+            }
+        }
+
+        int size = 1000001;
+        int dp[] = new int[size];
+        dp[0] = 0;
+        dp[1] = 0;
+
+        // Step 2: Build dp[] prefix array
+        for (int i = 2; i < size; i++) {
+            if (!prime[i]) {
+                // if not prime → carry forward previous count
+                dp[i] = dp[i - 1];
+            } else {
+                int num = i;
+                boolean val = true;
+
+                // Step 3a: check all suffixes of i
+                int mod = 10;
+                while (mod <= i) {
+                    if (!prime[i % mod]) {
+                        val = false;
+                        break;
+                    }
+                    mod = mod * 10;
+                }
+
+                // Step 3b: check if number contains '0'
+                num = i;
+                while (num > 0) {
+                    if ((num % 10) == 0) {
+                        val = false;
+                        break;
+                    }
+                    num = num / 10;
+                }
+
+                // Step 3c: update dp
+                if (val) {
+                    dp[i] = dp[i - 1] + 1;
+                } else {
+                    dp[i] = dp[i - 1];
+                }
+            }
+        }
+
+        // Step 4: Answer queries in O(1)
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            System.out.println(dp[n]);
+        }
+    }
+}
