@@ -1,0 +1,58 @@
+// DAY 9
+// QUESTION: LeetCode 36 (Valid Sudoku)
+//
+// Determine if a 9 x 9 Sudoku board is valid. 
+// Only the filled cells need to be validated according to these rules:
+//
+// 1. Each row must contain the digits 1-9 without repetition.
+// 2. Each column must contain the digits 1-9 without repetition.
+// 3. Each of the nine 3x3 sub-boxes must contain the digits 1-9 without repetition.
+//
+// Note:
+// - A valid Sudoku board does not need to be solvable.
+// - Only filled cells need to be checked.
+//
+
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        // Traverse each cell of the board
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                // If current cell is filled, check validity
+                if(!valid(i, j, board) && board[i][j] != '.')
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    // Helper function to validate a cell (i, j)
+    boolean valid(int i, int j, char[][] chr) {
+        char ch = chr[i][j];
+
+        // Check entire row for duplicate
+        for(int k = 0; k < 9; k++) {
+            if(k == j) continue;       // skip current cell
+            if(chr[i][k] == ch) return false;
+        }
+
+        // Check entire column for duplicate
+        for(int k = 0; k < 9; k++) {
+            if(k == i) continue;       // skip current cell
+            if(chr[k][j] == ch) return false;
+        }
+
+        // Find top-left index of 3x3 sub-box
+        int rstart = (i / 3) * 3;
+        int cstart = (j / 3) * 3;
+
+        // Check inside the 3x3 sub-box
+        for(int k = rstart; k < rstart + 3; k++) {
+            for(int l = cstart; l < cstart + 3; l++) {
+                if(k == i && l == j) continue; // skip current cell
+                if(chr[k][l] == ch) return false;
+            }
+        }
+        return true; // valid if no duplicates
+    }
+}
