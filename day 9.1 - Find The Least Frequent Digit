@@ -1,0 +1,59 @@
+// DAY 9
+// QUESTION: LeetCode 3663 (Find The Least Frequent Digit)
+//
+// Given an integer n, find the digit that occurs least frequently 
+// in its decimal representation. If multiple digits have the same frequency, 
+// choose the smallest digit.
+//
+// Return the chosen digit as an integer.
+//
+// Example 1:
+// Input: n = 1553322
+// Output: 1
+// Explanation: The least frequent digit in n is 1, which appears only once. 
+// All other digits appear twice.
+//
+// Example 2:
+// Input: n = 723344511
+// Output: 2
+// Explanation: The least frequent digits in n are 7, 2, and 5; each appears only once.
+// The smallest among them is 2.
+//
+// Constraints:
+// 1 <= n <= 2^31 - 1
+//
+
+class Solution {
+    public int getLeastFrequentDigit(int n) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int num = n;
+
+        // Step 1: Count the frequency of each digit in n
+        while(num > 0) {
+            map.put(num % 10, map.getOrDefault(num % 10, 0) + 1);
+            num /= 10;
+        }
+
+        int ans = 0;
+        int max = Integer.MAX_VALUE;
+
+        // Step 2: Traverse again through the digits of n 
+        // to ensure smallest digit is chosen in case of tie
+        while(n > 0) {
+            int digit = n % 10;
+
+            // If this digit’s frequency is smaller, update answer
+            if(map.get(digit) < max) {
+                ans = digit;
+                max = map.get(digit);
+            }
+            // If frequency is same as current min, pick smaller digit
+            else if(map.get(digit) == max) {
+                ans = Math.min(ans, digit);
+            }
+
+            n /= 10; // move to next digit
+        }
+        return ans;
+    }
+}
