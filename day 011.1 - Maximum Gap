@@ -1,0 +1,41 @@
+// DAY 11
+// Leetcode: 164. Maximum Gap
+//
+// Problem:
+// Given an integer array nums, return the maximum difference between 
+// two successive elements in its sorted form. 
+// If the array contains less than two elements, return 0.
+//
+// Example 1:
+// Input: nums = [3,6,9,1]
+// Output: 3
+// Explanation: Sorted array is [1,3,6,9], maximum gap = 3
+//
+// Example 2:
+// Input: nums = [10]
+// Output: 0
+// Explanation: Only one element, so no gap exists.
+//
+// Constraints:
+// 1 <= nums.length <= 10^5
+// 0 <= nums[i] <= 10^9
+//
+// ------------------------------------------------------------
+
+class Solution {
+    public int maximumGap(int[] nums) {
+        // Step 1: Sort the array
+        Arrays.sort(nums);
+
+        int ans = 0;              // To store maximum gap
+        int n = nums.length;      // Length of array
+
+        // Step 2: Iterate and find max difference between consecutive elements
+        for (int i = 0; i < n - 1; i++) {
+            ans = Math.max(ans, nums[i + 1] - nums[i]);
+        }
+
+        // Step 3: Return final result
+        return ans;
+    }
+}
