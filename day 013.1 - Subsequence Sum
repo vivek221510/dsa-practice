@@ -1,0 +1,174 @@
+// DAY X
+// QUESTION: Subsequence Sum
+//
+// Given a sequence of N numbers: S1, ..., SN, determine how many subsequences of S 
+// have a sum between A and B inclusive.
+//
+// Input Format
+// - The first line of input contains T - the number of test cases. 
+// - Each test case has 2 lines: 
+//   First line contains N, A, B 
+//   Second line contains the sequence of N numbers.
+//
+// Output Format
+// For each test case, print the result on a new line.
+//
+// Constraints
+// - 30 points: 1 <= N <= 15
+// - 120 points: 1 <= N <= 30
+// - -10^7 <= A <= B <= 10^7
+// - -10^7 <= S[i] <= 10^7
+//
+// Example
+// Input
+// 2
+// 3 -1 2
+// 1 -2 3
+// 5 5 15
+// 1 4 -3 6 4
+//
+// Output
+// 5
+// 20
+//
+// Approach:
+// - Use Meet-in-the-Middle technique.
+// - Split array into two halves.
+// - Generate all subset sums of first half, store with frequency.
+// - For second half, recursively generate sums and count how many from the first half
+//   make the total fall in range [A, B].
+// - Use binary search (ceil/floor) + prefix sums for efficient counting.
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+        int t=Integer.parseInt(br.readLine());   // number of test cases
+        
+        // Reusable containers for subset sums
+        HashMap<Integer,Integer> map= new HashMap<>();  // stores frequency of sums of first half
+        ArrayList<Integer> list=new ArrayList<>();      // stores unique sums of first half
+        
+        while(t-->0)
+        {
+            // Read n, a, b
+            String parts[]=br.readLine().split(" ");
+            int n=Integer.parseInt(parts[0]);
+            int a=Integer.parseInt(parts[1]);
+            int b=Integer.parseInt(parts[2]);
+            
+            // Read the sequence
+            int arr[]= new int[n];
+            String part[]=br.readLine().split(" ");
+            for(int i=0;i<n;i++) {
+                arr[i]=Integer.parseInt(part[i]);
+            }
+            
+            // Split into two halves
+            int n1=n/2;       // size of first half
+            int n2=n-n1;      // size of second half
+            
+            // Generate all subset sums of first half
+            first(map,arr,n1,0,0,list);
+            
+            // Store answer here
+            int ans[]={0}; 
+            
+            // Sort subset sums of first half
+            Collections.sort(list);
+             
+            // Build prefix array to quickly get frequency sums
+            long prefix[]= new long[list.size()];
+            prefix[0]=map.get(list.get(0));
+            for(int i=1;i<list.size();i++) {
+                prefix[i]=prefix[i-1]+map.get(list.get(i));
+            }
+            
+            // Generate all subset sums of second half and count valid subsequences
+            second(arr,list,n1,n,ans,prefix,a,b,list.size(),0);
+            
+            // Print result for current test case
+            System.out.println(ans[0]);
+            
+            // Clear for next test case
+            list.clear();
+            map.clear();
+        }
+    }
+
+    // Recursive function to generate all subset sums of second half
+    // and count valid subsequences with sums from the first half
+    static void second(int[] arr,ArrayList<Integer> list,int i, int n,int[] ans,long[] prefix,int a,int b,int size,int sum)
+    {
+        if(i==n)
+        {
+            // At the end of recursion: check how many sums from first half 
+            // can be combined with "sum" to fall within [a, b]
+            int l=ceil(a-sum,list,size);   // smallest index >= (a - sum)
+            int r=floor(b-sum,list,size);  // largest index <= (b - sum)
+            if(l==-1 || r==-1) return;     // no valid range
+           
+            // Add count of valid subsequences using prefix sums
+            ans[0]+=prefix[r]-(l==0?0:prefix[l-1]);
+            return;
+        }
+        // Include current element in sum
+        second(arr,list,i+1,n,ans,prefix,a,b,size,sum+arr[i]);
+        // Exclude current element from sum
+        second(arr,list,i+1,n,ans,prefix,a,b,size,sum);
+    }
+
+    // Recursive function to generate all subset sums of first half
+    static void first(HashMap<Integer,Integer> map,int arr[],int n,int i,int sum,ArrayList<Integer> list)
+    {
+        if(i==n){
+            // Store sum and update frequency
+            if(!map.containsKey(sum)) {
+                list.add(sum);  // add only once for unique sums
+            }
+            map.put(sum,map.getOrDefault(sum,0)+1);
+            return;
+        }
+        // Include current element in sum
+        first(map,arr,n,i+1,sum+arr[i],list);
+        // Exclude current element from sum
+        first(map,arr,n,i+1,sum,list);
+    }
+
+    // Binary search: find smallest index with value >= k
+    static int ceil(int k,ArrayList<Integer> list,int n)
+    {
+        int low=0, high=n-1, ans=-1;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            if(list.get(mid)>=k){
+                ans=mid;
+                high=mid-1;
+            } else {
+                low=mid+1;
+            }
+        }
+        return ans;
+    }
+
+    // Binary search: find largest index with value <= k
+    static int floor(int k,ArrayList<Integer> list,int n)
+    {
+        int low=0, high=n-1, ans=-1;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            if(list.get(mid)>k) { 
+                high=mid-1;
+            } else {
+                ans=mid;
+                low=mid+1;
+            }
+        }
+        return ans;
+    }
+}
