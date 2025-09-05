@@ -1,0 +1,59 @@
+/*
+leetcode - 2396. Strictly Palindromic Number
+---------------------------------
+
+Problem Statement:
+An integer n is strictly palindromic if, for every base b between 2 and n - 2 (inclusive),
+the string representation of the integer n in base b is palindromic.
+
+A string is palindromic if it reads the same forward and backward.
+
+Return true if n is strictly palindromic and false otherwise.
+
+------------------------------------------------------------
+
+Example 1:
+Input: n = 9
+Output: false
+Explanation:
+Base 2: 9 = 1001 (palindromic)
+Base 3: 9 = 100 (not palindromic)
+Therefore, 9 is not strictly palindromic.
+
+Example 2:
+Input: n = 4
+Output: false
+Explanation:
+Base 2: 4 = 100 (not palindromic)
+Therefore, 4 is not strictly palindromic.
+
+------------------------------------------------------------
+
+Constraints:
+4 <= n <= 10^5
+
+------------------------------------------------------------
+
+Intuition:
+- For any n >= 5, consider base (n - 2).
+- In that base:
+    n = 1 × (n - 2) + 2
+  So its representation becomes "12", which is NOT a palindrome.
+- For n = 4, in base 2, representation = "100" (also not a palindrome).
+- Therefore, no integer >= 4 is strictly palindromic.
+
+------------------------------------------------------------
+
+Solution:
+- Since the problem guarantees 4 <= n <= 1e5,
+  the answer is always false.
+
+Time Complexity: O(1)
+Space Complexity: O(1)
+*/
+
+class Solution {
+    public boolean isStrictlyPalindromic(int n) {
+        return false;  // No integer >= 4 is strictly palindromic
+    }
+}
