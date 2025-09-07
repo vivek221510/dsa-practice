@@ -1,0 +1,57 @@
+/*
+Leetcode 3675. Minimum Operations to Transform String
+Medium
+
+You are given a string s consisting only of lowercase English letters.
+
+You can perform the following operation any number of times (including zero):
+- Choose any character c in the string and replace every occurrence of c with the next lowercase letter in the English alphabet (circular: 'a' comes after 'z').
+
+Return the minimum number of operations required to transform s into a string consisting of only 'a' characters.
+
+Example 1:
+Input: s = "yz"
+Output: 2
+Explanation:
+Change 'y' to 'z' → "zz"
+Change 'z' to 'a' → "aa"
+
+Example 2:
+Input: s = "a"
+Output: 0
+
+Constraints:
+1 <= s.length <= 5 * 10^5
+s consists only of lowercase English letters.
+*/
+
+class Solution {
+    public int minOperations(String s) {
+        // Initialize c to 'z' (the largest lowercase letter)
+        char c = 'z';
+        // Flag to check if all characters are already 'a'
+        boolean val = true;
+        
+        // Iterate through each character in the string
+        for (int i = 0; i < s.length(); i++) {
+            // If current character is not 'a', set val to false
+            if (s.charAt(i) != 'a') val = false;
+            // Keep track of the smallest non-'a' character
+            if (s.charAt(i) < c && s.charAt(i) != 'a') c = s.charAt(i);
+        }
+        
+        // If all characters are already 'a', return 0 operations
+        if (val) return 0;
+        
+        // Return the number of steps needed to turn the smallest non-'a' character to 'a'
+        return 'z' - c + 1;
+    }
+}
+
+/*
+Time Complexity (TC): O(n)
+- We iterate through the string exactly once, where n is the length of the string.
+
+Space Complexity (SC): O(1)
+- Only a few variables are used, regardless of input size.
+*/
