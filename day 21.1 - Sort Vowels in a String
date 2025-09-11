@@ -1,0 +1,54 @@
+/*
+🚀 LeetCode 2785 – Sort Vowels in a String
+
+✅ Problem:
+Reorder the vowels in the string in non-decreasing ASCII order while keeping consonants in their original positions.
+
+Time Complexity: O(n log n)  
+Space Complexity: O(n)
+*/
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+class Solution {
+    public String sortVowels(String s) {
+        int n = s.length();
+        ArrayList<Character> list = new ArrayList<>();
+        
+        // Step 1: Collect all vowels from the string
+        for (int i = 0; i < n; i++) {
+            char x = Character.toLowerCase(s.charAt(i));
+            if (x == 'a' || x == 'e' || x == 'i' || x == 'o' || x == 'u') {
+                list.add(s.charAt(i));  // Add original case vowel
+            }
+        }
+
+        // Step 2: Sort vowels by ASCII value
+        Collections.sort(list);
+
+        StringBuilder ans = new StringBuilder();
+        int j = 0;  // Index to track sorted vowels
+
+        // Step 3: Reconstruct the string
+        for (int i = 0; i < n; i++) {
+            char x = Character.toLowerCase(s.charAt(i));
+            
+            if (!vowel(x)) {
+                // If consonant, keep it in place
+                ans.append(s.charAt(i));
+            } else {
+                // If vowel, insert the next vowel from sorted list
+                ans.append(list.get(j));
+                j++;
+            }
+        }
+
+        return ans.toString();
+    }
+
+    // Helper method to check if a character is a vowel
+    boolean vowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+}
