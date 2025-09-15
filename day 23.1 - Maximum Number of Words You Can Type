@@ -1,0 +1,37 @@
+```markdown
+/*
+🚀 LeetCode 1935: Maximum Number of Words You Can Type
+
+✅ Task:
+- Given a string text of words separated by a single space (no leading or trailing spaces) and a string brokenLetters of all distinct letter keys that are broken.
+- Return the number of words in text you can fully type using this keyboard.
+
+Example:
+Input: text = "hello world", brokenLetters = "ad"
+Output: 1  // because "hello" can be typed, but "world" contains 'd' which is broken.
+
+⏱ Time Complexity: O(n)
+🧱 Space Complexity: O(1)  // At most 26 entries in the map
+*/
+
+class Solution {
+    public int canBeTypedWords(String text, String brokenLetters) {
+        String[] strs= text.split(" ");
+        int cnt=0;
+        int n=strs.length;
+        for(int i=0;i<n;i++)
+        {
+            boolean val=true;
+            for(int j=0;j<brokenLetters.length();j++)
+            {
+                char c=brokenLetters.charAt(j);
+                if(strs[i].contains(Character.toString(c))){
+                    val=false;
+                }
+            }
+            if(val)cnt++;
+        }
+        return cnt;
+    }
+}
+```
