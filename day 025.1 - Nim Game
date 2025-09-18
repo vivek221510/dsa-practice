@@ -1,0 +1,45 @@
+/*
+🔥 LeetCode 292: Nim Game
+
+✅ Problem:
+You are playing Nim Game with a heap of stones. Each player alternates removing 1–3 stones.
+The player who removes the last stone wins. You go first.
+
+Return true if you can win the game assuming both play optimally.
+
+---
+
+💡 Key Insight:
+- If the heap size `n` is a multiple of 4, you always lose.
+  Why? Because whatever you take (1–3 stones), your opponent can always take the rest to make the total removed equal 4. 
+  This keeps the game in multiples of 4, forcing you to face the last stone.
+- Otherwise, you can always force a win.
+
+---
+
+📘 Examples:
+Input: n = 4
+Output: false
+Explanation: You cannot win because whatever you choose, the opponent wins.
+
+Input: n = 1
+Output: true
+
+Input: n = 2
+Output: true
+
+---
+
+⏱️ Time Complexity: O(1)
+📦 Space Complexity: O(1)
+
+---
+
+✅ Solution (Java):
+*/
+
+class Solution {
+    public boolean canWinNim(int n) {
+        return n % 4 != 0;
+    }
+}
