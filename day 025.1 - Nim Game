@@ -8,7 +8,7 @@ The player who removes the last stone wins. You go first.
 Return true if you can win the game assuming both play optimally.
 
 ---
-
+ 
 💡 Key Insight:
 - If the heap size `n` is a multiple of 4, you always lose.
   Why? Because whatever you take (1–3 stones), your opponent can always take the rest to make the total removed equal 4. 
