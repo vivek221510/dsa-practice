@@ -1,0 +1,75 @@
+/*
+🚀 Leetcode 3005: Count Elements With Maximum Frequency
+
+✅ Task:
+You are given an array `nums` consisting of positive integers.
+
+Return the total frequencies of elements in `nums` such that those elements all have the maximum frequency.
+
+The frequency of an element is the number of occurrences of that element in the array.
+
+---
+
+### Example 1:
+Input: nums = [1,2,2,3,1,4]  
+Output: 4  
+Explanation:  
+- Element 1 appears 2 times  
+- Element 2 appears 2 times  
+- Maximum frequency = 2  
+- Total = 2 (for 1) + 2 (for 2) = 4  
+
+---
+
+### Example 2:
+Input: nums = [1,2,3,4,5]  
+Output: 5  
+Explanation:  
+- All elements appear 1 time  
+- Maximum frequency = 1  
+- Total = 1+1+1+1+1 = 5  
+
+---
+
+### 🔎 Approach:
+1. Count the frequency of each element (values are ≤ 100, so use a fixed array of size 101).  
+2. Track the maximum frequency found.  
+3. Sum all frequencies that equal this maximum.  
+
+---
+
+### ⏱ Complexity:
+- **Time:** O(n + k), where n = length of nums, k = 100 → effectively O(n).  
+- **Space:** O(1) (since frequency array size is fixed at 101).  
+
+---
+
+### ✅ Solution Code (Java):
+*/
+
+class Solution {
+    public int maxFrequencyElements(int[] nums) {
+        int cnt[] = new int[101];
+        int n = nums.length;
+        
+        // Step 1: Count frequencies
+        for (int i = 0; i < n; i++) {
+            cnt[nums[i]]++;
+        }
+        
+        int ans = 0;
+        int maxcnt = 0;
+        
+        // Step 2: Find max frequency and sum elements having that frequency
+        for (int i = 1; i <= 100; i++) {
+            if (maxcnt < cnt[i]) {
+                ans = cnt[i];   // reset answer when new max found
+                maxcnt = cnt[i];
+            } else if (maxcnt == cnt[i]) {
+                ans += cnt[i];  // add if frequency equals current max
+            }
+        }
+        
+        return ans;
+    }
+}
