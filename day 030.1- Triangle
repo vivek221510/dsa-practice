@@ -1,0 +1,66 @@
+/*
+🚀 LeetCode 120: Triangle
+
+✅ Problem:
+You are given a triangle array. Return the minimum path sum from top to bottom.
+At each step, you may move to an adjacent number in the row below.
+
+Formally:
+- If you are on index i in row r, you may move to index i or i+1 in row r+1.
+
+---
+
+🔹 Example 1:
+Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
+Output: 11
+Explanation:
+   2
+  3 4
+ 6 5 7
+4 1 8 3
+Minimum path = 2 + 3 + 5 + 1 = 11
+
+🔹 Example 2:
+Input: triangle = [[-10]]
+Output: -10
+
+---
+
+⏱️ Complexity:
+- Time: O(n²) → Each element in the triangle is processed once.
+- Space: O(n²) → DP table stores values for each level (can be optimized to O(n)).
+
+---
+
+💻 Solution (Top-Down DP with 2D ArrayList):
+*/
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        List<List<Integer>> dp = new ArrayList<>();
+
+        // Initialize dp structure
+        for (int i = 0; i < n; i++) {
+            dp.add(new ArrayList<>());
+        }
+
+        // Base case (top element)
+        dp.get(0).add(triangle.get(0).get(0));
+
+        // Build DP table row by row
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                int up = j < i ? dp.get(i - 1).get(j) : Integer.MAX_VALUE;
+                int left = j > 0 ? dp.get(i - 1).get(j - 1) : Integer.MAX_VALUE;
+                dp.get(i).add(j, triangle.get(i).get(j) + Math.min(left, up));
+            }
+        }
+
+        // Find minimum in the last row
+        int ans = Integer.MAX_VALUE;
+        for (int j = 0; j < triangle.get(n - 1).size(); j++) {
+            ans = Math.min(ans, dp.get(n - 1).get(j));
+        }
+        return ans;
+    }
+}
