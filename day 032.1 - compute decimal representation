@@ -1,0 +1,83 @@
+/*
+Problem:
+You are given a positive integer n.  
+You need to decompose n into its decimal representation, meaning represent n as 
+a sum of numbers where each number has exactly one non-zero digit.  
+
+Example 1:
+Input: n = 5023
+Output: [5000, 20, 3]
+Explanation:
+5023 = 5000 + 20 + 3
+
+Example 2:
+Input: n = 410
+Output: [400, 10]
+Explanation:
+410 = 400 + 10
+
+Constraints:
+- 1 <= n <= 10^9
+- The result array should only contain the non-zero digit contributions.
+
+----------------------------------------------------------------
+Approach:
+1. Traverse through the digits of n (from least significant to most significant).
+2. For each non-zero digit, compute its place value (digit * 10^position).
+3. Store it in an array.
+4. Since we process digits from right to left, reverse the array at the end.
+5. Return the array.
+
+----------------------------------------------------------------
+Time Complexity: O(d)   where d = number of digits in n  
+Space Complexity: O(d)  for storing the resulting decomposition
+*/
+
+class Solution {
+    public int[] decimalRepresentation(int n) {
+        int x = n;
+        int cnt = 0;
+        int cnt1 = 0;
+
+        // Count non-zero digits
+        while (x != 0) {
+            if (x % 10 != 0) {
+                cnt++;
+            }
+            cnt1++;
+            x /= 10;
+        }
+
+        int[] ans = new int[cnt];
+        x = n;
+        cnt1--;
+        int i = 0;
+        int t = 0;
+
+        // Extract non-zero digit contributions
+        while (x > 0) {
+            if (x % 10 != 0) {
+                int num = x % 10;
+                int temp = t;
+                while (temp != 0) {
+                    num *= 10;
+                    temp--;
+                }
+                ans[i] = num;
+                i++;
+            }
+            x /= 10;
+            cnt1--;
+            t++;
+        }
+
+        // Reverse the array (since we built it from least to most significant digit)
+        for (i = 0; i < ans.length / 2; i++) {
+            int temp = ans[i];
+            ans[i] = ans[ans.length - i - 1];
+            ans[ans.length - i - 1] = temp;
+        }
+
+        return ans;
+    }
+}
