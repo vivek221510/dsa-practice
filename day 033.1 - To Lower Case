@@ -1,0 +1,60 @@
+# 709. To Lower Case
+
+## Problem Description
+Given a string `s`, return the string after replacing every uppercase letter with the same lowercase letter.  
+You must not use any built-in methods like `toLowerCase()` directly.
+
+### Example 1:
+**Input:**  
+`s = "Hello"`
+
+**Output:**  
+`"hello"`
+
+### Example 2:
+**Input:**  
+`s = "here"`
+
+**Output:**  
+`"here"`
+
+### Example 3:
+**Input:**  
+`s = "LOVELY"`
+
+**Output:**  
+`"lovely"`
+
+---
+
+## Solution
+
+We can solve this problem by manually converting uppercase characters (`'A'` to `'Z'`) to lowercase by adding 32 to their ASCII value.  
+This is because in the ASCII table:
+- `'A'` → 65  
+- `'a'` → 97  
+And the difference between uppercase and lowercase letters is exactly **32**.
+
+---
+
+## Time and Space Complexity
+- **Time Complexity:** `O(n)` where `n` is the length of the string, since we traverse it once.  
+- **Space Complexity:** `O(n)` for storing the result in a `StringBuilder`.
+
+---
+
+## Java Solution
+```java
+class Solution {
+    public String toLowerCase(String s) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if(c >= 'A' && c <= 'Z') {
+                c = (char)(c + 32); // convert uppercase to lowercase
+            }
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+}
