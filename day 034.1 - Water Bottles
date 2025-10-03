@@ -1,0 +1,28 @@
+1518. Water Bottles
+
+We keep drinking all available full bottles and count them.  
+Each empty bottle is collected, and whenever we have enough to exchange, we trade them for new full bottles.  
+This process continues until no more exchanges can be made.
+
+class Solution {
+    public int numWaterBottles(int numBottles, int numExchange) {
+        int ans = 0;
+        int empty = 0;
+
+        while (numBottles > 0) {
+            ans += numBottles;
+            empty += numBottles;
+            numBottles = 0;
+
+            if (empty >= numExchange) {
+                numBottles = empty / numExchange;
+                empty = empty % numExchange;
+            }
+        }
+
+        return ans;
+    }
+}
+
+Time Complexity: O(numBottles / numExchange)  
+Space Complexity: O(1)
