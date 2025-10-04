@@ -1,0 +1,41 @@
+// 11. Container With Most Water
+
+/*
+Description:
+You are given an integer array where each element represents the height of a vertical line. 
+Two lines along with the x-axis form a container. Find the maximum water a container can store. 
+The task is to maximize the area formed between two lines.
+
+Example:
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+*/
+
+class Solution {
+    public int maxArea(int[] height) {
+       int left=0,right=height.length-1;
+       int maxArea=0;
+       while(left<right)
+       {
+         int width=right-left;
+         int minheight=Math.min(height[left],height[right]);
+         int Area=width*minheight;
+         if(Area>maxArea)
+         {
+            maxArea=Area;
+         }
+         if(height[left]<height[right])
+         {
+            left++;
+         }
+         else
+         {
+            right--;
+         }
+       }
+       return maxArea;
+    }
+}
