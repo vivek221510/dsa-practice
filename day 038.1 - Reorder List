@@ -1,0 +1,77 @@
+### 143. Reorder List
+
+Rearrange a singly linked list so that the nodes are reordered in a specific pattern — first node, last node, second node, second last node, and so on.  
+The reordering should be done **in-place** without modifying the node values.
+
+---
+
+**Example:**
+```
+Input: head = [1,2,3,4,5]
+Output: [1,5,2,4,3]
+```
+
+---
+
+**Time Complexity:** O(n)  
+**Space Complexity:** O(1)
+
+---
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        if(head.next==null)return;
+        ListNode mid=findmid(head);
+        ListNode h2=mid.next;
+        mid.next=null;
+        h2=reverse(h2);
+        join(head,h2);
+    }
+    ListNode join(ListNode h1,ListNode h2)
+    {
+        ListNode dummy= new ListNode(-1);
+        ListNode cur=dummy;
+        while(h1!=null && h2!=null)
+        {
+            cur.next=h1;
+            h1=h1.next;
+            cur=cur.next;
+
+            cur.next=h2;
+            h2=h2.next;
+            cur=cur.next;
+        }
+        if(h1!=null)cur.next=h1;
+        return dummy.next;
+    }
+    ListNode findmid(ListNode h)
+    {
+        ListNode s=h,f=h;
+        while(f.next!=null && f.next.next!=null)
+        {
+            f=f.next.next; // fast by 2, slow by 1
+            s=s.next;
+        }
+        return s;
+    }
+    ListNode reverse(ListNode h)
+    {
+        if(h.next==null)return h;
+        ListNode nn =reverse(h.next);
+        h.next.next=h; // reverse link
+        h.next=null;
+        return nn;
+    }
+}
+```
