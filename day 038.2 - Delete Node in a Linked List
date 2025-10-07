@@ -1,0 +1,36 @@
+### 237. Delete Node in a Linked List
+
+Given access to only a node in a singly linked list (not the head), delete that node from the list.  
+You are guaranteed that the node to be deleted is **not the tail** of the list.
+
+---
+
+**Example:**
+```
+Input: head = [4,5,1,9], node = 5
+Output: [4,1,9]
+```
+
+---
+
+**Time Complexity:** O(1)  
+**Space Complexity:** O(1)
+
+---
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;   // Copy next node's value into current node
+        node.next = node.next.next; // Skip the next node
+    }
+}
+```
