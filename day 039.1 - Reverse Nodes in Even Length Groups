@@ -1,0 +1,84 @@
+// 2074. Reverse Nodes in Even Length Groups
+// Given a linked list, divide it into groups of sizes 1, 2, 3, 4, ...
+// Reverse nodes of each group that has even length.
+
+ /**
+  * Definition for singly-linked list.
+  * public class ListNode {
+  *     int val;
+  *     ListNode next;
+  *     ListNode() {}
+  *     ListNode(int val) { this.val = val; }
+  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+  * }
+  */
+class Solution {
+    public ListNode reverseEvenLengthGroups(ListNode head) {
+        int s = 0;
+        int k = 2;
+        ListNode h = head;
+
+        // Count total nodes
+        while (h != null) {
+            h = h.next;
+            s++;
+        }
+
+        h = head;
+        s--;
+
+        while (h != null && h.next != null) {
+            if (k > s && s % 2 == 0) {
+                ListNode temp = h;
+                ListNode h2 = reverse(temp.next);
+                h = temp.next;
+                temp.next.next = null;
+                temp.next = h2;
+            } 
+            else if (k % 2 == 0 && k <= s) {
+                ListNode temp = h;
+                int k1 = 0;
+                while (k1 < k && temp.next != null) {
+                    k1++;
+                    temp = temp.next;
+                }
+                ListNode temp1 = temp;
+                temp = temp.next;
+                temp1.next = null;
+                ListNode h2 = reverse(h.next);
+                h.next.next = temp;
+                ListNode ht = h.next;
+                h.next = h2;
+                h = ht;
+            } 
+            else {
+                int k1 = 0;
+                while (k1 < k && h != null) {
+                    k1++;
+                    h = h.next;
+                }
+            }
+            s -= k;
+            k++;
+        }
+        return head;
+    }
+
+    ListNode reverse(ListNode h) {
+        if (h == null || h.next == null) return h;
+        ListNode nn = reverse(h.next);
+        h.next.next = h;
+        h.next = null;
+        return nn;
+    }
+}
+
+/*
+Example:
+Input: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
+Groups: 1 | 2 3 | 4 5 6 | 7 8
+Output: 1 -> 3 -> 2 -> 4 -> 5 -> 6 -> 8 -> 7
+
+Time Complexity: O(N)
+Space Complexity: O(1)
+*/
