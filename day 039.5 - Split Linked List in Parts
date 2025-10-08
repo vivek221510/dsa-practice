@@ -1,0 +1,60 @@
+// 725. Split Linked List in Parts
+
+// Description:  
+// Given the head of a singly linked list and an integer k, split the list into k consecutive parts as equally as possible.  
+// Each part's length should differ by at most one, with earlier parts being longer if needed.  
+// Return an array containing the head of each part.
+
+// Example:  
+// Input: head = [1,2,3], k = 5  
+// Output: [[1],[2],[3],[],[]]
+
+// Time Complexity: O(n + k)  
+// Space Complexity: O(k)
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode[] splitListToParts(ListNode head, int k) {
+        ListNode[] ans = new ListNode[k];
+        if (head == null) return ans;
+
+        // Count total nodes
+        int size = 0;
+        ListNode temp = head;
+        while (temp != null) {
+            temp = temp.next;
+            size++;
+        }
+
+        // Determine base size and extra nodes
+        int share = size / k;
+        int extra = size % k;
+        int[] sizes = new int[k];
+        Arrays.fill(sizes, share);
+        for (int i = 0; i < extra; i++) sizes[i]++;
+
+        // Split the list
+        ListNode curr = head;
+        for (int i = 0; i < k && curr != null; i++) {
+            ans[i] = curr;
+            int partSize = sizes[i];
+            for (int j = 1; j < partSize; j++) {
+                curr = curr.next;
+            }
+            ListNode nextPart = curr.next;
+            curr.next = null;
+            curr = nextPart;
+        }
+
+        return ans;
+    }
+}
