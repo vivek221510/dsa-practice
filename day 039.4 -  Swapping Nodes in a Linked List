@@ -1,0 +1,60 @@
+// 1721. Swapping Nodes in a Linked List
+
+// Description:  
+// You are given the head of a linked list and an integer k.  
+// Swap the values of the k-th node from the beginning and the k-th node from the end (1-indexed) of the list.  
+// Return the head of the modified list.
+
+// Example:  
+// Input: head = [1,2,3,4,5], k = 2  
+// Output: [1,4,3,2,5]
+
+// Time Complexity: O(n)  
+// Space Complexity: O(1)
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode swapNodes(ListNode head, int k) {
+        ListNode h = head;
+        int size = 0;
+        
+        // Find length of list
+        while (h != null) {
+            h = h.next;
+            size++;
+        }
+
+        h = head;
+        ListNode n1 = h;
+        ListNode n2 = h;
+        int k1 = size - k + 1;
+
+        // Move n1 to k-th node
+        while (k > 1 && n1.next != null) {
+            n1 = n1.next;
+            k--;
+        }
+
+        // Move n2 to k1-th node
+        while (k1 > 1) {
+            n2 = n2.next;
+            k1--;
+        }
+
+        // Swap their values
+        int temp = n1.val;
+        n1.val = n2.val;
+        n2.val = temp;
+
+        return head;
+    }
+}
