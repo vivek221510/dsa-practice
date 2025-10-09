@@ -1,0 +1,57 @@
+92. Reverse Linked List II
+
+Description:  
+Reverse a part of a linked list from position left to right, keeping the rest of the list unchanged.  
+
+Example:  
+Input: head = [1,2,3,4,5], left = 2, right = 4  
+Output: [1,4,3,2,5]  
+
+Time Complexity: O(n)  
+Space Complexity: O(1)  
+
+------------------------------------------------------------
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if(left==right) return head;
+        ListNode dummy= new ListNode(-1);
+        ListNode l=dummy;
+        ListNode r=dummy;
+        dummy.next=head;
+        while(left>1)
+        {
+            l=l.next;
+            left--;
+        }
+        while(right>0)
+        {
+            r=r.next;
+            right--;
+        }
+        ListNode rem=r.next;
+        r.next=null;
+        ListNode nn=reverse(l.next);
+        l.next.next=rem;
+        l.next=nn;
+        return dummy.next;
+    }
+    ListNode reverse(ListNode h)
+    {
+        if(h==null || h.next==null)return h;
+        ListNode nn =reverse(h.next);
+        h.next.next=h;
+        h.next=null;
+        return nn;
+    }
+}
