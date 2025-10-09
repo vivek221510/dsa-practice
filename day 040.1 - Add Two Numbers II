@@ -1,0 +1,58 @@
+445. Add Two Numbers II
+
+Description:  
+You are given two non-empty linked lists representing two non-negative integers.  
+The most significant digit comes first, and each node contains a single digit.  
+Add the two numbers and return the sum as a linked list without modifying the input lists.  
+
+Example:  
+Input: (7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)  
+Output: 7 -> 8 -> 0 -> 7  
+
+Time Complexity: O(m + n)  
+Space Complexity: O(m + n)  
+
+------------------------------------------------------------
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode n1, ListNode n2) {
+        ListNode r1 = reverse(n1);
+        ListNode r2 = reverse(n2);
+        ListNode ans = add(r1, r2);
+        return reverse(ans);
+    }
+
+    private ListNode reverse(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode newHead = reverse(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
+    }
+
+    private ListNode add(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode curr = dummy;
+        int carry = 0;
+
+        while (l1 != null || l2 != null || carry != 0) {
+            int sum = carry;
+            if (l1 != null) { sum += l1.val; l1 = l1.next; }
+            if (l2 != null) { sum += l2.val; l2 = l2.next; }
+            carry = sum / 10;
+            curr.next = new ListNode(sum % 10);
+            curr = curr.next;
+        }
+        return dummy.next;
+    }
+}
