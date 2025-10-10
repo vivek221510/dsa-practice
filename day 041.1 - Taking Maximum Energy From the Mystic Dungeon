@@ -1,0 +1,71 @@
+/*
+🏷️ 3147. Taking Maximum Energy From the Mystic Dungeon
+
+You are given an integer array `energy` and an integer `k`.
+Starting from any index `i`, you can move to `i - k`, `i - 2k`, and so on until the index becomes negative.
+Your goal is to find the maximum total energy you can collect following this pattern.
+
+------------------------------------------------------------
+🔹 Example Testcase 1
+Input:
+energy = [5,2,-10,-5,1], k = 3
+Output:
+3
+
+Explanation:
+- Start from index 1: collect 2 + 1 = 3
+- This gives the maximum total energy.
+
+------------------------------------------------------------
+🔹 Example Testcase 2
+Input:
+energy = [-2,-3,-1], k = 2
+Output:
+-1
+
+Explanation:
+- Best option is taking only the last element (-1).
+
+------------------------------------------------------------
+⏱️ Time Complexity: O(n)
+💾 Space Complexity: O(k)
+------------------------------------------------------------
+*/
+
+class Solution {
+    public int maximumEnergy(int[] energy, int k) {
+        int p[] = new int[k];
+        int n = energy.length;
+        int ans = Integer.MIN_VALUE;
+        int j = 0;
+        boolean val = false;
+        while (!val)
+        {
+            for (int i = 0; i < k; i++)
+            {
+                if ((n - 1 - i - (k * j)) < 0)
+                {
+                    val = true;
+                    break;
+                }
+                p[i] += energy[n - 1 - i - (k * j)];
+                ans = Math.max(ans, p[i]);
+            }
+            j++;
+        }
+        return ans;
+    }
+}
+
+/*
+------------------------------------------------------------
+✅ Test Result
+Input:  [5,2,-10,-5,1], k = 3
+Output: 3
+Expected: 3
+------------------------------------------------------------
+Input:  [-2,-3,-1], k = 2
+Output: -1
+Expected: -1
+------------------------------------------------------------
+*/
