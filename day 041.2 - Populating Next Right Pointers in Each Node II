@@ -1,0 +1,99 @@
+/*
+🏷️ 117. Populating Next Right Pointers in Each Node II
+
+You are given a binary tree where each node contains an extra pointer `next` that should point to its next right node.
+If there is no next right node, the `next` pointer should be set to `null`.
+
+You must populate each next pointer to point to its next right node.
+
+------------------------------------------------------------
+🔹 Example Testcase 1
+Input:
+root = [1,2,3,4,5,null,7]
+
+Output:
+[1,#,2,3,#,4,5,7,#]
+
+Explanation:
+       1 → NULL
+     /   \
+    2 →   3 → NULL
+   / \     \
+  4 → 5 →   7 → NULL
+
+------------------------------------------------------------
+🔹 Example Testcase 2
+Input:
+root = []
+Output:
+[]
+
+------------------------------------------------------------
+⏱️ Time Complexity: O(n)
+💾 Space Complexity: O(n)
+------------------------------------------------------------
+*/
+
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {}
+    
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
+
+class Solution {
+    public Node connect(Node root) {
+        if (root == null) {
+            return root;
+        }
+        ArrayList<Node> list = new ArrayList<>();
+        list.add(root);
+        root.next = null;
+
+        while (!list.isEmpty()) {
+            int n = list.size();
+            for (int i = 0; i < n - 1; i++) {
+                list.get(i).next = list.get(i + 1);
+            }
+            list.get(n - 1).next = null;
+
+            ArrayList<Node> temp = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                Node x = list.get(i);
+                if (x.left != null) temp.add(x.left);
+                if (x.right != null) temp.add(x.right);
+            }
+            list = temp;
+        }
+        return root;
+    }
+}
+
+/*
+------------------------------------------------------------
+✅ Test Result
+Input:  [1,2,3,4,5,null,7]
+Output: [1,#,2,3,#,4,5,7,#]
+Expected: [1,#,2,3,#,4,5,7,#]
+------------------------------------------------------------
+Input:  []
+Output: []
+Expected: []
+------------------------------------------------------------
+*/
