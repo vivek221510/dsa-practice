@@ -1,0 +1,62 @@
+/*
+## 💡 Problem: Score Balance
+
+You are given a string `s` consisting of lowercase English letters.  
+Each letter has a score equal to its position in the alphabet (i.e., `'a' = 1`, `'b' = 2`, ..., `'z' = 26`).  
+
+Return `true` if there exists a **split point** in the string such that the **sum of the scores** of the characters before and after the split are **equal**, otherwise return `false`.
+
+---
+
+### 🔍 Example
+
+Input:
+s = "abcd"
+
+Explanation:
+Scores: a=1, b=2, c=3, d=4
+Total sum = 10  
+If we check prefix sums:
+- prefix = 1 → 2×1 = 2 ≠ 10  
+- prefix = 3 → 2×3 = 6 ≠ 10  
+- prefix = 6 → 2×6 = 12 ≠ 10  
+No position satisfies the balance condition.  
+So, the output is false.
+
+Output:
+false
+
+---
+
+### 🧠 Approach
+1. Compute the total sum of all character scores.  
+2. Iterate through the string while maintaining a prefix sum (`temp`).  
+3. If at any point `2 * temp == total_sum`, then the string is score-balanced.  
+4. Return `true` if found, else `false`.
+
+---
+
+### ⏱️ Time Complexity
+O(n) — single pass through the string.
+
+### 💾 Space Complexity
+O(1) — uses only a few integer variables.
+
+---
+*/
+
+class Solution {
+    public boolean scoreBalance(String s) {
+        int sum = 0;
+        for (int i = 0; i < s.length(); i++) {
+            sum += s.charAt(i) - 'a' + 1;
+        }
+
+        int temp = 0;
+        for (int i = 0; i < s.length(); i++) {
+            temp += s.charAt(i) - 'a' + 1;
+            if (temp + temp == sum) return true;
+        }
+        return false;
+    }
+}
