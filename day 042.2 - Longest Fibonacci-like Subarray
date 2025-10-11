@@ -1,0 +1,70 @@
+/*
+## 💡 Problem: Longest Fibonacci-like Subarray
+
+You are given an integer array `nums`.  
+Find the **length of the longest subarray** such that every element (starting from the third)  
+is the **sum of the previous two elements** — similar to a Fibonacci sequence.
+
+If the array has a length ≤ 2, return its length (since any two elements form a valid base).
+
+---
+
+### 🔍 Example
+
+Input:
+nums = [1, 2, 3, 5, 8, 13, 4, 7, 11]
+
+Explanation:
+- [1, 2, 3, 5, 8, 13] follows the Fibonacci-like rule:  
+  1+2=3, 2+3=5, 3+5=8, 5+8=13  
+  → length = 6  
+- [4, 7, 11] also follows but has length = 3  
+
+The longest subarray length is **6**.
+
+Output:
+6
+
+---
+
+### 🧠 Approach
+1. Handle edge cases: if length ≤ 2, return the length directly.  
+2. Use three pointers `i`, `j`, and `k` to check triplets `(nums[i], nums[j], nums[k])`.  
+3. If `nums[i] + nums[j] == nums[k]`, increment `cnt` (streak length).  
+4. Otherwise, reset `cnt`.  
+5. Update the maximum `ans` accordingly.  
+6. Return `ans + 2` to include the first two elements of the Fibonacci-like sequence.
+
+---
+
+### ⏱️ Time Complexity
+O(n) — Single traversal through the array.
+
+### 💾 Space Complexity
+O(1) — Uses constant extra space.
+
+---
+*/
+
+class Solution {
+    public int longestSubarray(int[] nums) {
+        int n = nums.length;
+        if (n <= 2) return n;
+        
+        int i = 0, j = 1, k = 2;
+        int cnt = 0, ans = 0;
+        
+        while (k < n) {
+            if (nums[i] + nums[j] == nums[k]) {
+                cnt++;
+                ans = Math.max(cnt, ans);
+            } else {
+                cnt = 0;
+            }
+            i++;
+            j++;
+            k++;
+        }
+        return ans + 2;
+    }
+}
