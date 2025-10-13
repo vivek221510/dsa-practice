@@ -1,0 +1,82 @@
+/*
+Q: Copy List with Random Pointer
+Medium
+
+You are given a linked list of length n containing nodes with an additional random pointer. Each node contains three fields:
+- val: an integer value
+- next: a pointer to the next node in the list (or null if it's the last node)
+- random: a pointer to any node in the list (or null)
+
+Your task is to create a deep copy of this list. The new list should contain exactly n new nodes, each with the same value as the corresponding node in the original list. The next and random pointers of the new nodes should point to the corresponding nodes in the copied list.
+
+Return the head of the copied linked list.
+
+Example:
+Input:
+Original list: 7 -> 13 -> 11 -> 10 -> 1
+Random pointers: [null, 0, 4, 2, 0]
+
+Output:
+Copied list: 7 -> 13 -> 11 -> 10 -> 1
+Random pointers: [null, 0, 4, 2, 0]
+
+Explanation:
+Both lists are identical in structure and random connections, but no node from the copied list points to any node in the original list.
+
+Time Complexity: O(n)
+Space Complexity: O(1)  (excluding output)
+*/
+
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head==null)return null;
+        Node h= head;
+        while(h!=null)
+        {
+            Node t=h.next;
+            h.next=new Node(h.val);
+            h.next.next=t;
+            h=t;
+        }
+        h=head;
+        Node nh=head.next;
+        while(h!=null && nh!=null)
+        {
+            if(h.random!=null){
+            nh.random=h.random.next;
+            }
+            if(nh.next!=null){
+            nh=nh.next.next;
+            }
+            h=h.next.next;
+        }
+        h=head;
+        Node ans=head.next;
+        nh=head.next;
+        while(h!=null )
+        {
+            h.next=nh.next;
+            h=h.next;
+            if(h!=null){
+            nh.next=h.next;
+            nh=nh.next;
+            }
+        }
+        return ans;
+    }
+}
