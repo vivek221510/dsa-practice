@@ -1,0 +1,52 @@
+/*
+Q: Partition List
+Medium
+
+You are given the head of a linked list and an integer x.
+Partition the list so that all nodes with values less than x come before nodes with values greater than or equal to x.
+You should preserve the original relative order of the nodes in each of the two partitions.
+
+Example:
+Input: head = [1,4,3,2,5,2], x = 3
+Output: [1,2,2,4,3,5]
+
+Explanation:
+All nodes with values less than 3 appear before nodes with values greater than or equal to 3.
+The relative order of the nodes in both partitions is preserved.
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+*/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        ListNode dless = new ListNode(-1);
+        ListNode dhigh = new ListNode(-1);
+        ListNode ans = dless;
+        ListNode dh = dhigh;
+        ListNode h = head;
+        while (h != null) {
+            if (h.val < x) {
+                dless.next = h;
+                dless = dless.next;
+            } else {
+                dhigh.next = h;
+                dhigh = dhigh.next;
+            }
+            h = h.next;
+        }
+        dhigh.next = null;
+        dless.next = dh.next;
+        return ans.next;
+    }
+}
