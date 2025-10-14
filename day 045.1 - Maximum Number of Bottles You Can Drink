@@ -1,0 +1,54 @@
+/*
+📘 Problem: Maximum Number of Bottles You Can Drink
+
+You start with `numBottles` full bottles of water.
+After drinking a bottle, you have one empty bottle.
+You can exchange `numExchange` empty bottles for one full bottle.
+However, after each successful exchange, the required number of empty bottles `numExchange` increases by 1.
+
+Return the **maximum number of bottles** you can drink.
+
+---
+
+🧩 Example:
+Input:
+numBottles = 13
+numExchange = 6
+
+Step-by-step:
+- Start with 13 full bottles → drink all (13 drunk, 13 empty).
+- Exchange 6 empties → +1 full → now drunk = 14, empties = 8, next exchange requires 7 empties.
+- Exchange 7 empties → +1 full → now drunk = 15, empties = 2, next exchange requires 8 empties.
+- Stop (cannot exchange further).
+
+Output: 15
+
+---
+
+⏱️ Time Complexity: O(N)
+Each iteration represents one exchange, bounded by the number of bottles.
+
+💾 Space Complexity: O(1)
+Only a few integer variables used.
+
+---
+
+✅ Code Implementation:
+*/
+
+class Solution {
+    public int maxBottlesDrunk(int numBottles, int numExchange) {
+        int ans = 0;
+        ans += numBottles;          // Drink all initial bottles
+        int extra = numBottles;     // Empty bottles gained
+
+        while (extra >= numExchange) {
+            ans += 1;               // Drink one more after exchanging
+            extra -= numExchange;   // Spend some empties
+            numExchange++;          // Exchange rate increases
+            extra++;                // Gain one empty back
+        }
+
+        return ans;
+    }
+}
