@@ -1,0 +1,62 @@
+/*
+Problem: Max Increasing Subarrays
+
+You are given a list of integers `nums`. 
+We define an *increasing subarray* as a contiguous part of the array where each element is strictly greater than the previous one.
+
+Your task is to find the maximum possible length of the shortest increasing subarray 
+that can be formed when combining two consecutive increasing subarrays from the array.
+
+Example:
+----------
+Input: nums = [1, 2, 3, 5, 4, 6, 7, 8]
+Output: 3
+Explanation:
+- The increasing runs are [1,2,3,5] and [4,6,7,8].
+- Combining them gives min(4,4) + 1 = 5, but since we take half runs where required, the final result = 3.
+
+Approach:
+----------
+1. Traverse the list and find the lengths of increasing sequences.
+2. For each pair of consecutive increasing runs, calculate:
+   - The minimum of their lengths plus 1.
+   - Also, track if any single increasing run has length >= 3, then (len+1)/2 is a candidate.
+3. Keep updating the global maximum of these possible values.
+4. Return the maximum obtained value.
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+*/
+
+class Solution {
+    public int maxIncreasingSubarrays(List<Integer> nums) {
+        int cnt = 0, cnt1 = 0, n = nums.size(), j = 0;
+        int max = 1;
+        
+        // Find first increasing segment
+        while (j < n - 1 && nums.get(j) < nums.get(j + 1)) {
+            cnt++;
+            j++;
+        }
+        if (cnt >= 3) {
+            max = Math.max(max, (cnt + 1) / 2);
+        }
+        j++;
+
+        // Iterate through remaining segments
+        while (j < n - 1) {
+            cnt1 = 0;
+            while (j < n - 1 && nums.get(j) < nums.get(j + 1)) {
+                cnt1++;
+                j++;
+            }
+            if (cnt1 >= 3) 
+                max = Math.max((cnt1 + 1) / 2, max);
+            
+            max = Math.max(Math.min(cnt, cnt1) + 1, max);
+            cnt = cnt1;
+            j++;
+        }
+        return max;
+    }
+}
