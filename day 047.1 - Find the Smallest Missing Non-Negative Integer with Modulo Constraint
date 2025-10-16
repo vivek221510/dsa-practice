@@ -1,0 +1,50 @@
+/*
+Problem: Find the Smallest Missing Non-Negative Integer with Modulo Constraint
+
+You are given an integer array `nums` and an integer `value`.  
+You want to find the smallest non-negative integer `ans` such that after using numbers from `nums` modulo `value`, `ans` is not constructible.
+
+Approach:
+- Convert each number in nums to `nums[i] % value` (handling negative numbers to get a positive modulo).
+- Count the frequency of each modulo result.
+- Try to construct numbers 0,1,2,... in a cyclic manner using the frequencies.
+- The first number you cannot construct is the answer.
+
+Example:
+Input: nums = [1,2,3,4,5], value = 2
+Output: 3
+Explanation: After modulo 2, nums become [1,0,1,0,1]. 
+We can construct 0 (use one 0), 1 (use one 1), 2 (use one 0), cannot construct 3 (no 1 left), so answer = 3.
+
+Time Complexity: O(n + value)
+Space Complexity: O(value)
+*/
+
+class Solution {
+    public int findSmallestInteger(int[] nums, int value) {
+        int s = value + 1;
+        int freq[] = new int[s];
+        
+        // normalize numbers modulo 'value'
+        for(int i = 0; i < nums.length; i++) {
+            nums[i] = nums[i] % value;
+            if(nums[i] < 0) {
+                nums[i] += value;
+            }
+            freq[nums[i]]++;
+        }
+        
+        int ans = 0;
+        int i = 0;
+        
+        // construct numbers cyclically
+        while(freq[i] != 0) { 
+            freq[i]--;
+            i++;
+            ans++;
+            if(i == value) i = 0;
+        }
+        
+        return ans;
+    }
+}
