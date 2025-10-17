@@ -1,0 +1,74 @@
+/**
+ * Problem: Maximum Level Sum of a Binary Tree
+ * 
+ * Given the root of a binary tree, return the level (1-indexed) which has the 
+ * maximum sum of node values. If multiple levels have the same maximum sum, 
+ * return the smallest level.
+ * 
+ * Example:
+ * Input:
+ *         1
+ *        / \
+ *       7   0
+ *      / \
+ *     7  -8
+ * Output: 2
+ * Explanation: 
+ * Level 1 sum = 1
+ * Level 2 sum = 7 + 0 = 7
+ * Level 3 sum = 7 + (-8) = -1
+ * Maximum sum is 7 at level 2.
+ * 
+ * Approach:
+ * Use level-order traversal (BFS) to traverse the tree level by level.
+ * At each level, compute the sum of all nodes. Keep track of the maximum sum 
+ * and its corresponding level.
+ * 
+ * Time Complexity: O(N), where N is the number of nodes.
+ * Space Complexity: O(W), where W is the maximum width of the tree (queue size).
+ */
+
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class Solution {
+    public int maxLevelSum(TreeNode root) {
+        if (root == null) return 0;
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        int max = Integer.MIN_VALUE;
+        int ans = 0;
+        int level = 1;
+
+        while (!q.isEmpty()) {
+            int sum = 0;
+            int n = q.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode node = q.poll();
+                sum += node.val;
+                if (node.left != null) q.add(node.left);
+                if (node.right != null) q.add(node.right);
+            }
+            if (sum > max) {
+                max = sum;
+                ans = level;
+            }
+            level++;
+        }
+
+        return ans;
+    }
+}
