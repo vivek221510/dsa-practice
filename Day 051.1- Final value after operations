@@ -1,0 +1,12 @@
+class Solution {
+    public int finalValueAfterOperations(String[] s) {
+        int a=0;
+        for(String op:s){
+            if(op.equals("X++")) a++;
+            else if(op.equals("X--"))a--;
+            else if(op.equals("--X")) --a;
+            else ++a;
+        }
+    return a;
+    }
+}
