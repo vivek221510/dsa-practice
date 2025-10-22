@@ -1,0 +1,52 @@
+/*
+🧩 Problem: Binary Tree Postorder Traversal
+
+Given the root of a binary tree, return the postorder traversal of its nodes' values.
+
+📘 Postorder Traversal:
+Left → Right → Root
+
+---
+
+💡 Example:
+Input: root = [1, null, 2, 3]
+Output: [3, 2, 1]
+
+Explanation:
+   1
+    \
+     2
+    /
+   3
+Postorder traversal: 3 → 2 → 1
+
+---
+
+🧠 Approach:
+1. Use a helper function `solve()` to recursively traverse the tree.
+2. For each node:
+   - Recursively visit the left subtree.
+   - Recursively visit the right subtree.
+   - Add the current node’s value to the list.
+3. Return the list containing postorder traversal.
+
+---
+
+🕒 Time Complexity: O(n) — visit each node once.
+💾 Space Complexity: O(n) — recursion stack and output list.
+*/
+
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        solve(root, list);
+        return list;
+    }
+
+    void solve(TreeNode root, List<Integer> list) {
+        if (root == null) return;
+        solve(root.left, list);
+        solve(root.right, list);
+        list.add(root.val);
+    }
+}
