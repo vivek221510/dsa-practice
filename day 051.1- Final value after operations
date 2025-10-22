@@ -1,0 +1,35 @@
+/*
+🧩 Problem: Final Value After Performing Operations
+
+Given an array of strings representing operations ("X++", "++X", "X--", "--X"), find the final value of X starting from 0 after performing all operations.
+
+💡 Example:
+Input: ["--X", "X++", "X++"]
+Output: 1
+
+Explanation:
+--X → X = -1
+X++ → X = 0
+X++ → X = 1
+
+🧠 Approach:
+1. Initialize a variable a = 0 to represent X.
+2. For each operation in the array:
+   - Increment a if the operation is "X++" or "++X".
+   - Decrement a if the operation is "X--" or "--X".
+3. Return the final value of a.
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(1)
+*/
+
+class Solution {
+    public int finalValueAfterOperations(String[] s) {
+        int a = 0;
+        for (String op : s) {
+            if (op.equals("X++") || op.equals("++X")) a++;
+            else a--;
+        }
+        return a;
+    }
+}
