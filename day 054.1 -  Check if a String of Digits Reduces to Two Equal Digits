@@ -1,0 +1,67 @@
+/*
+💡 Problem: Check if a String of Digits Reduces to Two Equal Digits
+
+Given a numeric string `s`, repeatedly replace it with a list where each element is the 
+sum of adjacent digits modulo 10, until only two digits remain.  
+Return true if the final two digits are equal, otherwise return false.
+
+---
+
+🔍 Example:
+
+Input:  s = "1234"  
+Process:
+  Step 1: (1+2)%10=3, (2+3)%10=5, (3+4)%10=7  → [3,5,7]
+  Step 2: (3+5)%10=8, (5+7)%10=2              → [8,2]
+Output: false
+
+Input:  s = "267"  
+Process:
+  Step 1: (2+6)%10=8, (6+7)%10=3  → [8,3]
+Output: false
+
+Input:  s = "919"  
+Process:
+  Step 1: (9+1)%10=0, (1+9)%10=0  → [0,0]
+Output: true
+
+---
+
+⏱️ Time Complexity:  O(n²)
+   Because each iteration reduces the list size by 1, leading to n + (n-1) + ... + 1 operations.
+
+💾 Space Complexity: O(n)
+   For storing the intermediate list of digits.
+
+---
+
+✅ Full Solution:
+*/
+
+import java.util.*;
+
+class Solution {
+    public boolean hasSameDigits(String s) {
+        int n = s.length();
+        ArrayList<Integer> list = new ArrayList<>();
+
+        // Step 1: Form initial list of adjacent sums mod 10
+        for (int i = 0; i < n - 1; i++) {
+            int sum = (s.charAt(i) - '0' + s.charAt(i + 1) - '0') % 10;
+            list.add(sum);
+        }
+
+        // Step 2: Repeatedly reduce until only two digits remain
+        while (list.size() > 2) {
+            ArrayList<Integer> next = new ArrayList<>();
+            for (int i = 0; i < list.size() - 1; i++) {
+                int sum = (list.get(i) + list.get(i + 1)) % 10;
+                next.add(sum);
+            }
+            list = next;
+        }
+
+        // Step 3: Return true if final two digits are equal
+        return list.get(0).equals(list.get(1));
+    }
+}
