@@ -1,0 +1,75 @@
+/*
+🧩 Problem: Next Beautiful Number
+
+You are given an integer n. A number is called a "beautiful number" if the frequency of each digit that appears in the number is equal to the digit itself.  
+For example:
+- 22 is beautiful because digit 2 appears exactly 2 times.
+- 1333 is beautiful because digit 1 appears once and digit 3 appears 3 times.
+- 1224444 is beautiful because digit 1 appears once, digit 2 appears twice, and digit 4 appears four times.
+
+You need to find the smallest integer greater than n which is a beautiful number.
+
+---
+
+Example 1:
+Input: n = 1  
+Output: 22  
+Explanation: The next beautiful number greater than 1 is 22.
+
+Example 2:
+Input: n = 1000  
+Output: 1333  
+Explanation: The next beautiful number greater than 1000 is 1333.
+
+Example 3:
+Input: n = 3000  
+Output: 3133  
+Explanation: The next beautiful number greater than 3000 is 3133.
+
+---
+
+🧠 Approach:
+1. Start checking from n + 1 upwards.
+2. For each number, count the occurrences of its digits.
+3. A number is "balanced" or "beautiful" if for every digit d that appears, its frequency equals d.
+4. Return the first such number found.
+
+Since the maximum beautiful number ≤ 1,224,444, we can limit the search range to that.
+
+---
+
+⏱️ Time Complexity:
+O(K × D) → practically constant, since K (number of candidates) ≤ a few thousand and D ≤ 7.
+
+💾 Space Complexity:
+O(1) → only an array of size 10 is used to store digit counts.
+
+---
+
+✅ Full Solution:
+*/
+
+class Solution {
+    public int nextBeautifulNumber(int n) {
+        for (int i = n + 1; i <= 1224444; i++) {
+            if (isBalanced(i)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean isBalanced(int x) {
+        int[] cnt = new int[10];
+        while (x > 0) {
+            cnt[x % 10]++;
+            x /= 10;
+        }
+        for (int d = 0; d < 10; d++) {
+            if (cnt[d] > 0 && cnt[d] != d) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
