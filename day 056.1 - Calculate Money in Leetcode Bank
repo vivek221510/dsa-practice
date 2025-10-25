@@ -1,0 +1,51 @@
+/*
+💡 Problem: Leetcode 1716. Calculate Money in Leetcode Bank
+
+📘 Description:
+Hercy wants to save money for his first car. He puts money in the Leetcode bank every day.
+
+- Every Monday, he deposits a new amount of money.
+- On Monday, he deposits `1` dollar, Tuesday `2`, Wednesday `3`, …, and Sunday `7`.
+- Every next week, the amount deposited on each day increases by $1 compared to the previous week.
+  (e.g., Monday of week 2 = $2, Tuesday = $3, …)
+
+Given an integer `n`, return the total money Hercy will have in the Leetcode bank after `n` days.
+
+🔹 Example:
+Input: n = 10  
+Output: 37  
+Explanation:
+Week 1: 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28  
+Week 2: 2 + 3 + (only first 3 days used) = 9  
+Total = 28 + 9 = 37
+
+🔹 Constraints:
+- 1 <= n <= 1000
+
+---------------------------------------------
+
+⏱️ Time Complexity: O(n)
+💾 Space Complexity: O(1)
+
+---------------------------------------------
+*/
+
+class Solution {
+    public int totalMoney(int n) {
+        int mon = 1;
+        int i = 0;
+        int cur = 1;
+        int ans = 0;
+        
+        while (i < n) {
+            ans += cur;
+            cur++;
+            i++;
+            if (i % 7 == 0) {
+                mon++;
+                cur = mon;
+            }
+        }
+        return ans;
+    }
+}
