@@ -1,0 +1,182 @@
+/*
+💡 Problem: Number of Laser Beams in a Bank (LeetCode #2125)
+
+📘 Description:
+You are given a 2D binary string array `bank` representing a security bank floor.
+Each string in `bank` represents a row of the bank, and each character in the string
+represents whether there is a security device (`'1'`) or not (`'0'`) in that cell.
+
+A laser beam can be formed between two rows that have at least one device each,
+and the number of beams between those two rows equals the product of the number of devices
+in both rows. However, only consecutive rows with at least one device are considered
+(valid connections cannot skip rows with all zeros).
+
+Return the total number of laser beams in the bank.
+
+🔹 Example:
+Input: bank = ["011001","000000","010100","001000"]
+Output: 8
+
+Explanation:
+- Row 0 has 3 devices
+- Row 2 has 2 devices
+- Row 3 has 1 device
+Beams are formed between:
+  Row 0 and Row 2 → 3 * 2 = 6
+  Row 2 and Row 3 → 2 * 1 = 2
+Total = 8
+
+---
+
+🧠 Approach:
+1️⃣ Count the number of `'1'`s in each row and store them in an array `beams[]`.
+2️⃣ Skip any rows that have zero devices.
+3️⃣ For each pair of consecutive non-zero rows:
+     total += beams[i] * beams[j]
+4️⃣ Update `i` to `j` and move forward until the end.
+
+This ensures we only multiply rows that directly follow each other with at least one device.
+
+---
+
+⏱️ Time Complexity: O(n * m)
+    - n = number of rows
+    - m = number of columns per row
+📦 Space Complexity: O(n)
+    - for storing the count of devices per row
+
+---
+
+✅ Code Implementation:
+*/
+class Solution {
+    public int numberOfBeams(String[] bank) {
+        int n = bank.length;
+        int beams[] = new int[n];
+
+        // Count devices ('1's) in each row
+        for (int i = 0; i < n; i++) {
+            String s = bank[i];
+            for (int j = 0; j < s.length(); j++) {
+                if (s.charAt(j) == '1') {
+                    beams[i]++;
+                }
+            }
+        }
+
+        int i = 0, j = 0, ans = 0;
+
+        // Find first row with devices
+        while (i < n && beams[i] == 0) {
+            i++;
+        }
+
+        // Find the next non-empty row after i
+        while ((j < n && beams[j] == 0) || (j < n && i == j)) {
+            j++;
+        }
+
+        // Calculate beams between consecutive valid rows
+        while (j < n) {
+            ans += beams[i] * beams[j];
+            i = j;
+            j++;
+            while (j < n && beams[j] == 0) {
+                j++;
+            }
+        }
+
+        return ans;
+    }
+}
+/*
+💡 Problem: Number of Laser Beams in a Bank (LeetCode #2125)
+
+📘 Description:
+You are given a 2D binary string array `bank` representing a security bank floor.
+Each string in `bank` represents a row of the bank, and each character in the string
+represents whether there is a security device (`'1'`) or not (`'0'`) in that cell.
+
+A laser beam can be formed between two rows that have at least one device each,
+and the number of beams between those two rows equals the product of the number of devices
+in both rows. However, only consecutive rows with at least one device are considered
+(valid connections cannot skip rows with all zeros).
+
+Return the total number of laser beams in the bank.
+
+🔹 Example:
+Input: bank = ["011001","000000","010100","001000"]
+Output: 8
+
+Explanation:
+- Row 0 has 3 devices
+- Row 2 has 2 devices
+- Row 3 has 1 device
+Beams are formed between:
+  Row 0 and Row 2 → 3 * 2 = 6
+  Row 2 and Row 3 → 2 * 1 = 2
+Total = 8
+
+---
+
+🧠 Approach:
+1️⃣ Count the number of `'1'`s in each row and store them in an array `beams[]`.
+2️⃣ Skip any rows that have zero devices.
+3️⃣ For each pair of consecutive non-zero rows:
+     total += beams[i] * beams[j]
+4️⃣ Update `i` to `j` and move forward until the end.
+
+This ensures we only multiply rows that directly follow each other with at least one device.
+
+---
+
+⏱️ Time Complexity: O(n * m)
+    - n = number of rows
+    - m = number of columns per row
+📦 Space Complexity: O(n)
+    - for storing the count of devices per row
+
+---
+
+✅ Code Implementation:
+*/
+class Solution {
+    public int numberOfBeams(String[] bank) {
+        int n = bank.length;
+        int beams[] = new int[n];
+
+        // Count devices ('1's) in each row
+        for (int i = 0; i < n; i++) {
+            String s = bank[i];
+            for (int j = 0; j < s.length(); j++) {
+                if (s.charAt(j) == '1') {
+                    beams[i]++;
+                }
+            }
+        }
+
+        int i = 0, j = 0, ans = 0;
+
+        // Find first row with devices
+        while (i < n && beams[i] == 0) {
+            i++;
+        }
+
+        // Find the next non-empty row after i
+        while ((j < n && beams[j] == 0) || (j < n && i == j)) {
+            j++;
+        }
+
+        // Calculate beams between consecutive valid rows
+        while (j < n) {
+            ans += beams[i] * beams[j];
+            i = j;
+            j++;
+            while (j < n && beams[j] == 0) {
+                j++;
+            }
+        }
+
+        return ans;
+    }
+}
