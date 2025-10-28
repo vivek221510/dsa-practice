@@ -1,0 +1,79 @@
+/**
+ * Problem: Binary Search Tree to Greater Sum Tree (BST → GST)
+ *
+ * Given the root of a Binary Search Tree (BST), transform it into a Greater Sum Tree (GST) where 
+ * every node’s value is replaced by the sum of all values greater than or equal to it in the BST.
+ * 
+ * A BST is defined as:
+ * - For each node, all nodes in the left subtree have smaller values.
+ * - All nodes in the right subtree have larger values.
+ *
+ * Your task is to implement a function that modifies the tree in-place.
+ *
+ * Constraints:
+ * - The number of nodes in the tree is in the range [1, 1000].
+ * - 0 <= Node.val <= 10^4
+ *
+ * Example:
+ * Input BST:
+ *       4
+ *     /   \
+ *    1     6
+ *   / \   / \
+ *  0   2 5   7
+ *       \       \
+ *        3       8
+ *
+ * Output GST:
+ *       30
+ *     /    \
+ *   36      21
+ *   / \    /  \
+ * 36  35 26   15
+ *       \       \
+ *       33       8
+ *
+ * Time Complexity: O(n)
+ * Space Complexity: O(n) due to storing nodes in a list
+ */
+
+import java.util.*;
+
+class Solution {
+    
+    // Inorder traversal to store nodes in ascending order
+    void inorder(TreeNode root, List<TreeNode> list) {
+        if (root == null) return;
+        inorder(root.left, list);
+        list.add(root);
+        inorder(root.right, list);
+    }
+    
+    public TreeNode bstToGst(TreeNode root) {
+        List<TreeNode> list = new ArrayList<>();
+        inorder(root, list);
+        
+        // Accumulate sums from right to left (largest to smallest)
+        for (int i = list.size() - 2; i >= 0; i--) {
+            list.get(i).val += list.get(i + 1).val;
+        }
+        
+        return root;
+    }
+}
+
+/**
+ * Definition for a binary tree node.
+ */
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
