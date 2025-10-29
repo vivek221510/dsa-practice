@@ -1,0 +1,40 @@
+/*
+💡 Problem: Smallest Number Greater Than or Equal to n by Powers of Two
+
+🔍 Description:
+You are given an integer n. Starting from x = 1, repeatedly double a value t (starting at 1) 
+and add it to x until x becomes greater than or equal to n. 
+Your task is to return the final value of x.
+
+📥 Input:
+- A single integer n
+
+📤 Output:
+- The smallest value of x such that after the given operations, x >= n.
+
+🧩 Example:
+Input:
+10
+Process:
+x = 1, t = 1
+t = 2, x = 3
+t = 4, x = 7
+t = 8, x = 15 (≥ 10, stop)
+Output:
+15
+
+🕒 Time Complexity: O(log n)
+💾 Space Complexity: O(1)
+*/
+
+class Solution {
+    public int smallestNumber(int n) {
+        int x = 1;
+        int t = 1;
+        while (x < n) {
+            t = t * 2;
+            x += t;
+        }
+        return x;
+    }
+}
