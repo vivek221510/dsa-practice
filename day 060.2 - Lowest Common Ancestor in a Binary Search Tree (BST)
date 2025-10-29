@@ -1,0 +1,62 @@
+/*
+💡 Problem: Lowest Common Ancestor in a Binary Search Tree (BST)
+
+🔍 Description:
+Given the root of a Binary Search Tree (BST) and two nodes `p` and `q`, 
+find their Lowest Common Ancestor (LCA).
+
+The Lowest Common Ancestor of two nodes `p` and `q` in a BST is the lowest (i.e., deepest) node 
+that has both `p` and `q` as descendants (a node can be a descendant of itself).
+
+📥 Input:
+- The root of a BST.
+- Two nodes `p` and `q` present in the BST.
+
+📤 Output:
+- Return the TreeNode representing the Lowest Common Ancestor of `p` and `q`.
+
+🧩 Example:
+Input:
+      6
+     / \
+    2   8
+   / \ / \
+  0  4 7  9
+    / \
+   3   5
+p = 2, q = 8
+
+Output:
+6
+
+Explanation:
+The root node 6 is the lowest node that has both 2 and 8 as descendants.
+
+🧠 Approach:
+- If both `p` and `q` are greater than the current node, move to the right subtree.
+- If both are smaller, move to the left subtree.
+- Otherwise, the current node is the LCA.
+
+🕒 Time Complexity: O(h), where h is the height of the BST.
+💾 Space Complexity: O(h) due to recursion (O(1) for iterative approach).
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root.val < p.val && root.val < q.val)
+            return lowestCommonAncestor(root.right, p, q);
+        if (root.val > p.val && root.val > q.val)
+            return lowestCommonAncestor(root.left, p, q);
+        return root;
+    }
+}
