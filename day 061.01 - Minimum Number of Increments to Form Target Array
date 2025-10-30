@@ -1,0 +1,30 @@
+/*
+# 💡 Problem: Minimum Number of Increments to Form Target Array
+
+Given an array `target`, starting from an all-zero array, 
+you can increment any subarray by 1. 
+Find the minimum number of operations to make it equal to `target`.
+
+Example:
+Input:  [1,2,3,2,1]
+Output: 3
+
+🧠 Idea:
+Add the first element, then for each index i>0, 
+add (target[i] - target[i-1]) only when it's positive.
+
+⏱️ Time: O(n)
+💾 Space: O(1)
+*/
+
+class Solution {
+    public int minNumberOperations(int[] target) {
+        int ans = target[0];
+        for (int i = 1; i < target.length; i++) {
+            if (target[i] > target[i - 1]) {
+                ans += target[i] - target[i - 1];
+            }
+        }
+        return ans;
+    }
+}
