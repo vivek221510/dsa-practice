@@ -1,0 +1,61 @@
+/*
+💡 **Problem:** Delete Leaves With a Given Value
+
+Given the `root` of a binary tree and an integer `target`,  
+remove all **leaf nodes** with value equal to `target`.  
+If any parent node becomes a leaf node and has the same value, remove it as well.  
+Return the modified tree.
+
+---
+
+### Example
+Input: root = [1,2,3,2,null,2,4], target = 2  
+Output: [1,null,3,null,4]
+
+---
+
+### Approach
+- Recursively traverse the tree post-order (left → right → node).
+- Remove children first, then check if the current node is a leaf with value `target`.
+- If so, return `null` (delete it); otherwise, return the node.
+
+---
+
+### Complexity
+- **Time:** O(n) — visit each node once  
+- **Space:** O(h) — recursion stack, where `h` is the height of the tree
+
+---
+
+### Code
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode removeLeafNodes(TreeNode root, int target) {
+        return remove(root, target);
+    }
+
+    TreeNode remove(TreeNode root, int target) {
+        if (root == null) return null;
+        root.left = remove(root.left, target);
+        root.right = remove(root.right, target);
+        if (root.left == null && root.right == null && root.val == target) {
+            return null;
+        }
+        return root;
+    }
+}
