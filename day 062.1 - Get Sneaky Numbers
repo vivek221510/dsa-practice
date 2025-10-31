@@ -1,0 +1,53 @@
+/*
+💡 **Problem:** Get Sneaky Numbers
+
+Given an integer array `nums`, find two numbers that appear **exactly twice** in the array.  
+Return them in the order they are found. If none exist, return `[-1, -1]`.
+
+---
+
+### Example
+Input: nums = [1, 2, 3, 2, 4, 3]  
+Output: [2, 3]
+
+---
+
+### Approach
+1. Find the maximum element to define count array size.
+2. Count the frequency of each number.
+3. Record numbers that appear exactly twice.
+4. Return both, or `[-1, -1]` if fewer than two exist.
+
+---
+
+### Complexity
+- **Time:** O(n + m) where m = max(nums)  
+- **Space:** O(m)
+
+---
+
+### Code
+*/
+class Solution {
+    public int[] getSneakyNumbers(int[] nums) {
+        int n = nums.length;
+        int max = nums[0];
+        for (int i = 1; i < n; i++) {
+            max = Math.max(nums[i], max);
+        }
+        int[] cnt = new int[max + 1];
+        for (int i = 0; i < n; i++) {
+            cnt[nums[i]]++;
+        }
+        int ans[] = { -1, -1 };
+        for (int i = 0; i < max + 1; i++) {
+            if (cnt[i] == 2) {
+                if (ans[0] == -1)
+                    ans[0] = i;
+                else
+                    ans[1] = i;
+            }
+        }
+        return ans;
+    }
+}
