@@ -1,0 +1,61 @@
+/*
+💡 **Problem:** Binary Tree Pruning
+
+Given the `root` of a binary tree, remove every subtree that does **not contain the value `1`**.  
+Return the pruned binary tree.
+
+---
+
+### Example
+Input: root = [1,0,1,0,0,0,1]  
+Output: [1,null,1,null,1]
+
+---
+
+### Approach
+- Recursively check each subtree.
+- If a subtree does not contain `1`, set it to `null`.
+- A node should remain if it is `1` or any of its subtrees contains `1`.
+- Return `null` if the entire tree contains no `1`.
+
+---
+
+### Complexity
+- **Time:** O(n) — every node is visited once  
+- **Space:** O(h) — recursion stack, where `h` is tree height
+
+---
+
+### Code
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode pruneTree(TreeNode root) {
+        boolean val = build(root);
+        return val ? root : null;
+    }
+
+    boolean build(TreeNode root) {
+        if (root == null) return false;
+        boolean l = build(root.left);
+        boolean r = build(root.right);
+        if (!l) root.left = null;
+        if (!r) root.right = null;
+        if (!l && !r && root.val == 0) return false;
+        return true;
+    }
+}
