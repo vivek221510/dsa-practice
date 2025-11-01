@@ -1,0 +1,31 @@
+/**
+🔹 Problem: Convert BST to Greater Tree
+Given the root of a Binary Search Tree (BST), convert it into a Greater Tree such that every node’s value is replaced by the sum of all values greater than or equal to it in the original tree.
+
+Example:
+Input: [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
+Output: [30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]
+
+🔹 Approach:
+Perform a reverse inorder traversal (right → root → left), maintaining a running sum.
+At each node, update its value by adding the cumulative sum of previously visited nodes.
+
+🔹 Time Complexity: O(n)
+🔹 Space Complexity: O(h)  (h = height of tree)
+*/
+
+class Solution {
+    public TreeNode convertBST(TreeNode root) {
+        int sum[] = {0};
+        inorder(root, sum);
+        return root;
+    }
+    
+    void inorder(TreeNode root, int[] cnt) {
+        if (root == null) return;
+        inorder(root.right, cnt);
+        root.val += cnt[0];
+        cnt[0] = root.val;
+        inorder(root.left, cnt);
+    }
+}
