@@ -1,0 +1,62 @@
+/*
+🔹 Problem: Minimum Time to Make Rope Colorful
+----------------------------------------------
+You are given a string `colors` and an integer array `neededTime` of the same length.
+`colors[i]` represents the color of the i-th balloon, and `neededTime[i]` is the time needed to remove that balloon.
+
+You want the rope (string) to be colorful — i.e., no two adjacent balloons have the same color.
+To achieve this, you may remove some balloons, and the cost is the sum of `neededTime` values for removed balloons.
+
+Return the minimum total time needed to make the rope colorful.
+
+----------------------------------------------
+Example:
+Input:
+colors = "abaac"
+neededTime = [1,2,3,4,5]
+
+Output:
+3
+
+Explanation:
+Remove the balloon at index 2 (color 'a' with time 3).
+Now the rope becomes "abac" — no adjacent balloons share the same color.
+
+----------------------------------------------
+🧠 Approach:
+We iterate through the string while grouping consecutive identical colors.
+For each group, remove all balloons except the one with the maximum `neededTime`.
+
+1️⃣ Traverse the string.
+2️⃣ If two adjacent colors are the same, accumulate their total time.
+3️⃣ Keep track of the maximum time in that group.
+4️⃣ Subtract that maximum once (since that balloon stays).
+5️⃣ Add the remaining total time to `sum`.
+
+----------------------------------------------
+⏱️ Time Complexity: O(n)
+🧮 Space Complexity: O(1)
+
+----------------------------------------------
+✅ Code Implementation:
+*/
+
+class Solution {
+    public int minCost(String colors, int[] neededTime) {
+        int sum = 0;
+        int n = neededTime.length;
+        for (int i = 0; i < n - 1; i++) {
+            if (colors.charAt(i) == colors.charAt(i + 1)) {
+                int max = neededTime[i];
+                sum += neededTime[i];
+                while (i < n - 1 && colors.charAt(i) == colors.charAt(i + 1)) {
+                    max = Math.max(max, neededTime[i + 1]);
+                    sum += neededTime[i + 1];
+                    i++;
+                }
+                sum -= max;
+            }
+        }
+        return sum;
+    }
+}
