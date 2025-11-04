@@ -1,0 +1,53 @@
+# 🧮 LeetCode: Smaller Numbers Than Current Number
+
+### 📘 Problem Description
+You are given an integer array `nums`.  
+For each element in the array, count how many numbers in the array are smaller than it.
+
+Return the answer as an array.
+
+### 🔍 Example
+**Input:**  
+`nums = [8, 1, 2, 2, 3]`
+
+**Output:**  
+`[4, 0, 1, 1, 3]`
+
+**Explanation:**  
+- 8 has 4 smaller numbers: 1, 2, 2, and 3.  
+- 1 has 0 smaller numbers.  
+- 2 has 1 smaller number: 1.  
+- 3 has 3 smaller numbers: 1, 2, and 2.
+
+---
+
+### 🧠 Approach
+We use a **nested loop** to compare every element with every other element.  
+For each number, we count how many numbers are smaller than it.
+
+---
+
+### ⏱️ Time Complexity
+- **O(n²)** — Two nested loops (compare every element with every other).
+  
+### 💾 Space Complexity
+- **O(n)** — For storing the result array.
+
+---
+
+### 💻 Full Solution Code
+```java
+class Solution {
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (nums[j] < nums[i]) {
+                    ans[i]++;
+                }
+            }
+        }
+        return ans;
+    }
+}
