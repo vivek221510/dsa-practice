@@ -1,0 +1,72 @@
+/*
+# 🧠 Problem: Count Majority Subarrays
+
+## 📝 Description:
+You are given an integer array `nums` and an integer `target`.  
+A subarray of `nums` is said to have a **majority** of `target` if the number of occurrences of `target` in that subarray is **strictly greater than half** of its length.
+
+Your task is to return the **total count of subarrays** where `target` is the majority element.
+
+---
+
+### 🔍 Example:
+Input:
+nums = [1, 2, 2, 2, 3], target = 2
+
+Output:
+6
+
+Explanation:
+The subarrays where `2` appears more than half of the time are:
+[2], [2], [2], [2,2], [2,2,2], [2,2,2,3]
+
+---
+
+## 💡 Approach:
+1. Precompute a prefix sum array `prefix[]` where `prefix[i]` stores the number of times `target` appears up to index `i`.
+2. Iterate over all subarray pairs `(i, j)`:
+   - Calculate the number of times `target` appears in the subarray `nums[i...j]` using:
+     ```
+     count = prefix[j] - (i > 0 ? prefix[i - 1] : 0)
+     ```
+   - Compute the subarray length `len = j - i + 1`.
+   - If `count > len / 2`, increment the answer.
+3. Return the final count.
+
+---
+
+## 🧠 Time and Space Complexity:
+- **Time Complexity:** O(n²) — Two nested loops to check all subarrays.
+- **Space Complexity:** O(n) — For the prefix sum array.
+
+---
+
+## ✅ Full Solution:
+*/
+
+class Solution {
+    public int countMajoritySubarrays(int[] nums, int target) {
+        int n = nums.length;
+        int prefix[] = new int[n];
+        prefix[0] = nums[0] == target ? 1 : 0;
+
+        for (int i = 1; i < n; i++) {
+            if (nums[i] == target) {
+                prefix[i] = prefix[i - 1] + 1;
+            } else {
+                prefix[i] = prefix[i - 1];
+            }
+        }
+
+        int ans = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int cnt = prefix[j] - (i > 0 ? prefix[i - 1] : 0);
+                int len = j - i + 1;
+                if (cnt > len / 2) ans++;
+            }
+        }
+        return ans;
+    }
+}
