@@ -1,0 +1,70 @@
+/*
+💡 Problem: Maximum Path Score with Limited Cost
+
+Given a grid where:
+- 0 = free cell (no cost)
+- 1 or 2 = costly cell (cost = 1)
+
+Start at (0,0) → reach (n-1,m-1) by moving only down/right.
+You can spend at most k cost units.
+Maximize total score (sum of visited cells).
+
+Return -1 if not possible.
+
+---------------------------------------------------------
+Example:
+grid = [[0,2,1],
+        [1,0,2],
+        [0,1,0]], k = 2
+Output: 5
+---------------------------------------------------------
+Approach:
+Use 3D DP → dp[i][j][l] = max score at (i,j) with cost l.
+Transition:
+- Move Down or Right if newCost ≤ k
+Answer = max(dp[n-1][m-1][l]) for all l ≤ k
+---------------------------------------------------------
+Complexity:
+Time:  O(n × m × k)
+Space: O(n × m × k)
+*/
+
+import java.util.*;
+
+class Solution {
+    public int maxPathScore(int[][] grid, int k) {
+        int n = grid.length, m = grid[0].length;
+        int[][][] dp = new int[n][m][k + 1];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                Arrays.fill(dp[i][j], -1);
+
+        dp[0][0][0] = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int l = 0; l <= k; l++) {
+                    if (dp[i][j][l] == -1) continue;
+
+                    if (i + 1 < n) {
+                        int cost = grid[i + 1][j] == 0 ? 0 : 1;
+                        int nc = l + cost;
+                        if (nc <= k)
+                            dp[i + 1][j][nc] = Math.max(dp[i + 1][j][nc], dp[i][j][l] + grid[i + 1][j]);
+                    }
+                    if (j + 1 < m) {
+                        int cost = grid[i][j + 1] == 0 ? 0 : 1;
+                        int nc = l + cost;
+                        if (nc <= k)
+                            dp[i][j + 1][nc] = Math.max(dp[i][j + 1][nc], dp[i][j][l] + grid[i][j + 1]);
+                    }
+                }
+            }
+        }
+
+        int ans = -1;
+        for (int l = 0; l <= k; l++)
+            ans = Math.max(ans, dp[n - 1][m - 1][l]);
+        return ans;
+    }
+}
