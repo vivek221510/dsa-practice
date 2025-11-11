@@ -1,0 +1,84 @@
+/*
+# 🧩 Problem: Convert Sorted List to Binary Search Tree
+
+### 🔍 Description
+Given the head of a **sorted singly linked list**, convert it into a **height-balanced binary search tree (BST)**.
+
+A height-balanced binary tree is one where the depth of the two subtrees of every node never differs by more than one.
+
+---
+
+### 💡 Example
+Input:
+head = [-10, -3, 0, 5, 9]
+
+Output (one possible balanced BST):
+        0
+       / \
+     -3   9
+     /   /
+   -10  5
+
+---
+
+### 🧠 Approach
+We use the **slow and fast pointer** technique to find the middle element of the linked list — this middle node becomes the **root** of the BST.
+
+Steps:
+1. If the list is empty, return null.
+2. If it has only one node, return a leaf TreeNode.
+3. Find the middle element using `findmid()`.
+4. Split the list into left and right halves.
+5. Recursively build left and right subtrees.
+6. Return the root TreeNode.
+
+---
+
+### ⏱️ Complexity
+Time: O(n log n)  
+Space: O(log n) (recursion stack)
+
+*/
+
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) return null;
+        if (head.next == null) return new TreeNode(head.val);
+
+        ListNode mid = findmid(head);
+        TreeNode root = new TreeNode(mid.val);
+
+        // Split the list into two halves
+        ListNode next = mid.next;
+        mid.next = null;
+
+        // Disconnect left sublist
+        ListNode prev = head;
+        while (prev != null && prev.next != mid) {
+            prev = prev.next;
+        }
+        if (prev != null) prev.next = null;
+
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(next);
+
+        return root;
+    }
+
+    ListNode findmid(ListNode head) {
+        if (head == null) return head;
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+
+/*
+# ✅ Notes
+- The slow–fast pointer method ensures a balanced split of the linked list.
+- Each recursive call constructs a subtree with the middle element as root.
+- No extra array or conversion step is needed — direct list traversal keeps space optimal.
+*/
