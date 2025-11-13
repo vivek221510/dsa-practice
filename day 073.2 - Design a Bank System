@@ -1,0 +1,74 @@
+# Problem: Design a Bank System
+
+You are given an array `balance` where `balance[i]` is the initial money of the (i+1)-th account.
+You must implement a Bank class that supports:
+
+1. `transfer(account1, account2, money)`
+2. `deposit(account, money)`
+3. `withdraw(account, money)`
+
+Return `true` if the operation is valid, otherwise return `false`.
+
+---
+
+## Example
+Input:
+balance = [10, 100, 20, 50]
+
+Bank bank = new Bank(balance);
+
+bank.withdraw(1, 5);     // true → balance[0] becomes 5  
+bank.transfer(2, 3, 40); // true → balance: [5, 60, 60, 50]  
+bank.deposit(4, 20);     // true → balance: [5, 60, 60, 70]
+
+---
+
+## Time & Space Complexity
+- **Transfer:** O(1)  
+- **Deposit:** O(1)  
+- **Withdraw:** O(1)  
+- **Space:** O(n) for storing balances
+
+---
+
+## Full Solution Code
+
+class Bank {
+    long bal[];
+    int n ;
+    public Bank(long[] balance) {
+        bal=new long[balance.length];
+        for(int i=0;i<balance.length;i++)
+        {
+            bal[i]=balance[i];
+        }
+        n=balance.length;
+    }
+    
+    public boolean transfer(int account1, int account2, long money) {
+        if(account1>n || account2>n || bal[account1-1]<money)return false;
+        bal[account2-1]+=money;
+        bal[account1-1]-=money;
+        return true;
+    }
+    
+    public boolean deposit(int account, long money) {
+        if(account>n)return false;
+        bal[account-1]+=money;
+        return true;
+    }
+    
+    public boolean withdraw(int account, long money) {
+        if(account>n || bal[account-1]<money)return false;
+        bal[account-1]-=money;
+        return true;
+    }
+}
+
+/**
+ * Your Bank object will be instantiated and called as such:
+ * Bank obj = new Bank(balance);
+ * boolean param_1 = obj.transfer(account1,account2,money);
+ * boolean param_2 = obj.deposit(account,money);
+ * boolean param_3 = obj.withdraw(account,money);
+ */
