@@ -1,0 +1,53 @@
+# 🔹 Problem: Max Operations on Binary String
+
+You are given a binary string `s`.  
+You need to count the number of operations where each operation happens whenever you encounter a pattern `"10"`, and the cost added is equal to how many `'1'` characters have appeared before that `'0'`.
+
+Your task is to compute the total number of such operations.
+
+---
+
+## 🔸 Example
+
+**Input:**  
+`s = "11010"`
+
+**Walkthrough:**  
+- At index 1 (`s[1] == '1'`), ones = 2  
+- At index 2 (`s[2] == '0'` after `'1'`), add ones → +2  
+- At index 3 (`s[3] == '1'`), ones = 3  
+- At index 4 (`s[4] == '0'` after `'1'`), add ones → +3  
+
+**Output:**  
+`5`
+
+---
+
+## 🔹 Time & Space Complexity
+
+- **Time Complexity:** `O(n)`  
+  — Single pass through the string  
+- **Space Complexity:** `O(1)`  
+  — Only counters used
+
+---
+
+## 🔸 Full Java Solution (exact code you provided)
+
+```java
+class Solution {
+    public int maxOperations(String s) {
+        int n = s.length();
+        int ans = 0;
+        int ones = 0;
+        for (int i = 0; i < n - 1; i++) {
+            if (s.charAt(i) == '1') {
+                ones++;
+                if (s.charAt(i + 1) == '0') {
+                    ans += ones;
+                }
+            }
+        }
+        return ans;
+    }
+}
