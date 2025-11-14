@@ -1,0 +1,46 @@
+# Range Add Queries – Brute Force Solution (Java)
+
+## Problem
+You are given an `n x n` matrix initialized with zeros.  
+Each query `[r1, c1, r2, c2]` means increment every cell `(i, j)` such that  
+`r1 ≤ i ≤ r2` and `c1 ≤ j ≤ c2`.
+
+Return the final matrix.
+
+## Example
+Input:
+n = 3  
+queries = [[1,1,2,2]]
+
+Output:
+[
+ [0,0,0],
+ [0,1,1],
+ [0,1,1]
+]
+
+## Time & Space Complexity
+Time: O(q * n²)  
+Space: O(n²)
+
+## Java Code (Your Brute Force Solution)
+class Solution {
+    public int[][] rangeAddQueries(int n, int[][] queries) {
+        int [][] mat = new int[n][n];
+        for(int i=0;i<queries.length;i++)
+        {
+            int r1=queries[i][0];
+            int c1=queries[i][1];
+            int r2=queries[i][2];
+            int c2=queries[i][3];
+            for(int j=r1;j<=r2;j++)
+            {
+                for(int k=c1;k<=c2;k++)
+                {
+                    mat[j][k]++;
+                }
+            }
+        }
+        return mat;
+    }
+}
