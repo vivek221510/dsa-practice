@@ -1,0 +1,61 @@
+/*
+# 🔹 Problem: Minimum Length After Removals
+
+You are given a string `s` consisting only of the characters `'a'` and `'b'`.  
+In one operation, you can remove **one `'a'` and one `'b'`** from anywhere in the string.
+
+Your task is to find the **minimum possible length** of the string after performing any number of such operations.
+
+---
+
+### 🔸 Example
+
+**Input:**  
+s = "aababb"
+
+**Process:**  
+- Remove one `'a'` and one `'b'` repeatedly.
+
+**Output:**  
+0
+
+**Explanation:**  
+All characters can be paired and removed, leaving an empty string.
+
+---
+
+### 🔹 Approach
+
+1. Track the **prefix balance** between `'a'` and `'b'`:  
+   - Increment by `+1` for `'a'`
+   - Decrement by `-1` for `'b'`
+2. The final balance `|a_count - b_count|` gives the **unremovable characters**,  
+   since every `'a'` can be paired with a `'b'`.
+3. Therefore, the **minimum remaining length** is the absolute difference  
+   between total `'a'` and `'b'` counts.
+
+---
+
+### 🧠 Complexity
+- **Time Complexity:** O(n)  
+- **Space Complexity:** O(n)
+---
+
+### ✅ Code Implementation
+*/
+
+class Solution {
+    public int minLengthAfterRemovals(String s) {
+        int p[] = new int[s.length()];
+        int n = s.length();
+        p[0] = s.charAt(0) == 'a' ? 1 : -1;
+
+        for (int i = 1; i < n; i++) {
+            p[i] = p[i - 1];
+            if (s.charAt(i) == 'a') p[i]++;
+            else p[i]--;
+        }
+
+        return Math.abs(p[n - 1]);
+    }
+}
