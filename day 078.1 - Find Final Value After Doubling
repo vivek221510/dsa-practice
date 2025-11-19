@@ -1,0 +1,56 @@
+# 🔍 Find Final Value After Doubling — Java Solution
+
+## 📝 Problem Description
+You are given an integer array **`nums`** and an integer **`original`**.  
+You must continue doubling `original` **as long as** it exists in the array.  
+Return the **final value** of `original` after this process.
+
+---
+
+## 📌 Example
+**Input:**  
+nums = `[5, 3, 6, 1, 12]`  
+original = `3`
+
+**Process:**  
+3 exists → double → 6  
+6 exists → double → 12  
+12 exists → double → 24  
+24 does not exist → stop
+
+**Output:**  
+`24`
+
+---
+
+## 💡 Approach  
+1. Sort the array.  
+2. Iterate through it.  
+3. Whenever you find a number equal to `original`, double `original`.  
+4. Continue until done.
+
+---
+
+## ⏱️ Time & Space Complexity
+- **Time Complexity:** `O(n log n)` — due to sorting  
+- **Space Complexity:** `O(1)` — in-place, ignoring sort space
+
+---
+
+## ✅ Full Java Code
+```java
+import java.util.*;
+
+class Solution {
+    public int findFinalValue(int[] nums, int original) {
+        int num = original;
+        Arrays.sort(nums);
+        
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == num) {
+                num *= 2;
+            }
+        }
+        return num;
+    }
+}
