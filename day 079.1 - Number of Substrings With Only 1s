@@ -1,0 +1,50 @@
+# ⭐ Problem: Number of Substrings With Only 1s  
+Given a binary string `s`, count how many substrings consist only of `'1'`.  
+Return the count **modulo 1,000,000,007**.
+
+### 🔍 Example
+**Input:**  
+`s = "0110111"`  
+**Output:**  
+`9`
+
+### 💡 Explanation  
+Every consecutive block of 1s contributes:  
+\[
+\frac{k \cdot (k+1)}{2}
+\]  
+where `k` is the length of that block.  
+Sum this for all blocks.
+
+---
+
+# ⏱️ Time & Space Complexity  
+- **Time:** `O(n)`  
+- **Space:** `O(1)`
+
+---
+
+# ✅ Full Java Solution (As Provided)
+
+```java
+class Solution {
+    public int numSub(String s) {
+        int n = s.length();
+        long ans = 0;
+        int mod = 1000000007;
+        long ones = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '1') {
+                ones++;
+            } else {
+                ans = ans + (((ones * (ones + 1)) % mod) / 2);
+                ans = ans % mod;
+                ones = 0;
+            }
+        }
+
+        ans = ans + ((ones * (ones + 1)) / 2) % mod;
+        return (int) ans;
+    }
+}
