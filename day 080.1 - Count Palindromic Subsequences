@@ -1,0 +1,59 @@
+# Count Palindromic Subsequences —
+
+```java
+/*
+Problem:
+Given a string s made of lowercase English letters, count the number of
+distinct palindromic subsequences of length 3. A valid subsequence is of the form:
+x _ x  (first and last characters same, middle can vary)
+We must count unique subsequences, not total occurrences.
+
+Example:
+Input:  "aabca"
+Distinct palindromic subsequences:
+"aba", "aaa", "aca"
+Output: 3
+
+Approach:
+1. Track the first and last occurrence of each character (a–z).
+2. For each character c:
+     - Look between first[c] and last[c]
+     - Count unique characters in between → these form palindromes c _ c
+3. Sum across all 26 letters.
+
+Time Complexity:  O(n)
+Space Complexity: O(1) aside from minimal arrays and a small set.
+*/
+
+class Solution {
+    public int countPalindromicSubsequence(String s) {
+        int[] first = new int[26];
+        Arrays.fill(first, -1);
+        int[] last = new int[26];
+        int n = s.length();
+
+        // Record first & last occurrence
+        for (int i = 0; i < n; i++) {
+            int ind = s.charAt(i) - 'a';
+            if (first[ind] == -1) {
+                first[ind] = i;
+            }
+            last[ind] = i;
+        }
+
+        int ans = 0;
+
+        // For each letter as the outer character
+        for (int i = 0; i < 26; i++) {
+            if (first[i] == -1) continue;
+
+            Set<Character> set = new HashSet<>();
+            for (int j = first[i] + 1; j < last[i]; j++) {
+                set.add(s.charAt(j));
+            }
+            ans += set.size();
+        }
+
+        return ans;
+    }
+}
