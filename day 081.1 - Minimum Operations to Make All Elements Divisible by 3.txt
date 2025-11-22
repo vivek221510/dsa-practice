@@ -1,0 +1,32 @@
+# Minimum Operations to Make All Elements Divisible by 3
+
+## Problem Description
+Given an integer array `nums`, each operation lets you increase or decrease an element by `1`.  
+Find the minimum operations needed to make every element divisible by `3`.
+
+## Example
+Input: `[3, 6, 7, 2]`  
+Output: `2`
+
+## Time Complexity
+O(n)
+
+## Space Complexity
+O(1)
+
+## Solution
+class Solution {
+    public int minimumOperations(int[] nums) {
+        int n = nums.length;
+        int ans=0;
+
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]%3!=0)
+            {
+                ans++;
+            }
+        }
+        return ans;
+    }
+}
