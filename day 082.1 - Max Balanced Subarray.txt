@@ -1,0 +1,33 @@
+# Max Balanced Subarray
+
+- Balanced subarray → XOR = 0 and even count = odd count  
+- Track prefix XOR and balance (even - odd)  
+- If same (xor, bal) appears again → valid subarray
+
+**Time:** O(n)  
+**Space:** O(n)
+
+```java
+class Solution {
+    public int maxBalancedSubarray(int[] nums) {
+        int xor = 0, bal = 0, n = nums.length, ans = 0;
+        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+        Map<Integer, Integer> init = new HashMap<>();
+        init.put(0, -1);
+        map.put(0, init);
+
+        for (int i = 0; i < n; i++) {
+            xor ^= nums[i];
+            bal += (nums[i] % 2 == 0) ? 1 : -1;
+
+            map.putIfAbsent(xor, new HashMap<>());
+            Map<Integer, Integer> inner = map.get(xor);
+
+            if (inner.containsKey(bal))
+                ans = Math.max(ans, i - inner.get(bal));
+            else
+                inner.put(bal, i);
+        }
+        return ans;
+    }
+}
