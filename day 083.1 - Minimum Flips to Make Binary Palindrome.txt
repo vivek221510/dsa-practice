@@ -1,0 +1,32 @@
+/**
+# Minimum Flips to Make Binary Palindrome
+
+## Problem
+Convert `n` to binary and count how many bit flips are needed to make it a palindrome.
+
+## Example
+n = 13 → "1101"  
+Flips needed = 1
+
+## Complexity
+Time: O(log n)  
+Space: O(log n)
+
+## Code
+```java
+class Solution {
+    public int minimumFlips(int n) {
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) {
+            sb.append(n % 2);
+            n /= 2;
+        }
+        String s = sb.toString();
+        String r = sb.reverse().toString();
+        int ans = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != r.charAt(i)) ans++;
+        }
+        return ans;
+    }
+}
