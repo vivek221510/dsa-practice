@@ -1,0 +1,62 @@
+# 🚀 Maximum Subarray Sum With Length Divisible by k
+
+Given an integer array `nums` and an integer `k`, return the **maximum subarray sum** such that the **length of the subarray is divisible by k**.
+
+We use prefix sums and store, for each remainder class `r`, the **minimum prefix sum seen so far** whose index gives remainder `r` modulo `k`.
+
+---
+
+## 🔍 Example
+
+Input:
+nums = [5, -2, 4], k = 3
+
+Valid subarray length: 3  
+Subarray: [5, -2, 4]  
+Sum = 7  
+Output = 7
+
+---
+
+## 🧠 Key Idea (Simple)
+
+- A subarray has length divisible by `k` when:
+  (endIndex - startIndex) % k == 0  
+  → both indices have the same remainder modulo k.
+- `presum[r]` stores the **smallest prefix sum** whose index gives remainder `r`.
+- `presum[k - 1] = 0` represents prefix sum **before index -1**, allowing subarrays starting at index 0.
+- At each index `i`:
+  ans = max(ans, prefix - presum[i % k])
+
+---
+
+## ⏱️ Time Complexity  
+O(n)
+
+## 🧵 Space Complexity  
+O(k)
+
+---
+
+## ✅ Full Solution Code
+
+class Solution {
+    public long maxSubarraySum(int[] nums, int k) {
+        int n = nums.length;
+        long prefix = 0;
+        long ans = Long.MIN_VALUE;
+        long[] presum = new long[k];
+        Arrays.fill(presum, Long.MAX_VALUE / 3);
+
+        // prefix sum before array starts (index -1) belongs to remainder (k - 1)
+        presum[k - 1] = 0;
+
+        for (int i = 0; i < n; i++) {
+            prefix += nums[i];
+            ans = Math.max(ans, prefix - presum[i % k]);
+            presum[i % k] = Math.min(presum[i % k], prefix);
+        }
+
+        return ans;
+    }
+}
